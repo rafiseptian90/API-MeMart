@@ -24,4 +24,7 @@ Route::group([
 
     // Other Criteria Resource
     Route::apiResource('other-criteria', 'OtherCriteriaController');
+
+    // Parent Income Resource
+    Route::apiResource('parent-income', 'ParentIncomeController');
 });
