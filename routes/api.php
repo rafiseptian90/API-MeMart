@@ -27,4 +27,7 @@ Route::group([
 
     // Parent Income Resource
     Route::apiResource('parent-income', 'ParentIncomeController');
+
+    // Parent Completness Resource
+    Route::apiResource('parent-completness', 'ParentCompletnessController');
 });
