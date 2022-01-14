@@ -17,8 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'v1',
     'namespace' => 'API',
-    'middleware' => 'api'
 ], function () {
+    // Auth endpoint
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('login', 'AuthController@login');
+        Route::post('logout', 'AuthController@logout');
+        Route::post('reset-password', 'AuthController@resetPassword');
+        Route::get('me', 'AuthController@me');
+    });
+
     // Classroom Resource
     Route::apiResource('classroom', 'ClassroomController');
 
