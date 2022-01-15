@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(OtherCriteriaSeeder::class);
         $this->call(ClassroomSeeder::class);
         $this->call(StudentSeeder::class);
+        $this->call(ProfitSeeder::class);
     }
 }

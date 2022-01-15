@@ -17,15 +17,15 @@ class OtherCriteriaSeeder extends Seeder
         $criterias = [
             [
                 'name' => 'Normal',
-                'score' => 3,
-            ],
-            [
-                'name' => 'Korban Bencana',
                 'score' => 5,
             ],
             [
-                'name' => 'Kelainan Fisik',
+                'name' => 'Korban Bencana',
                 'score' => 7,
+            ],
+            [
+                'name' => 'Kelainan Fisik',
+                'score' => 10,
             ],
         ];
 

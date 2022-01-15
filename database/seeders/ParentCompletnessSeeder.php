@@ -17,19 +17,19 @@ class ParentCompletnessSeeder extends Seeder
         $criterias = [
             [
                 'type' => 'Lengkap',
-                'score' => 1,
-            ],
-            [
-                'type' => 'Piatu',
                 'score' => 3,
             ],
             [
-                'type' => 'Yatim',
+                'type' => 'Piatu',
                 'score' => 5,
             ],
             [
-                'type' => 'Yatim Piatu',
+                'type' => 'Yatim',
                 'score' => 7,
+            ],
+            [
+                'type' => 'Yatim Piatu',
+                'score' => 10,
             ],
         ];
 
