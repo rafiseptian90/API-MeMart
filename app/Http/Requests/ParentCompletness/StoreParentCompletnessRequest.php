@@ -25,7 +25,7 @@ class StoreParentCompletnessRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'type' => [
                 'required',
                 Rule::unique('parent_completnesses')->whereNull('deleted_at')
             ],

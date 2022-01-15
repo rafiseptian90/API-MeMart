@@ -25,7 +25,7 @@ class UpdateParentCompletnessRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'type' => [
                 'required',
                 Rule::unique('parent_completnesses')->ignore($this->route('parent_completness'))->whereNull('deleted_at')
             ],

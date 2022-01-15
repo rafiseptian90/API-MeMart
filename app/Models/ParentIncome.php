@@ -12,7 +12,7 @@ class ParentIncome extends Model
     use HasFactory, SoftDeletes, ParentIncomeRelations;
 
     protected $fillable = [
-        'name',
+        'amount',
         'score'
     ];
 }

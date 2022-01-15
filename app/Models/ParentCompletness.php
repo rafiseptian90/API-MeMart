@@ -12,7 +12,7 @@ class ParentCompletness extends Model
     use HasFactory, SoftDeletes, ParentCompletnessRelations;
 
     protected $fillable = [
-        'name',
+        'type',
         'score'
     ];
 

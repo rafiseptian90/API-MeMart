@@ -25,7 +25,7 @@ class UpdateParentIncomeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'amount' => [
                 'required',
                 Rule::unique('parent_incomes')->ignore($this->route('parent_income'))->whereNull('deleted_at')
             ],

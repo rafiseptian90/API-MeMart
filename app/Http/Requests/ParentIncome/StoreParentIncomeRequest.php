@@ -25,7 +25,7 @@ class StoreParentIncomeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'amount' => [
                 'required',
                 Rule::unique('parent_incomes')->whereNull('deleted_at')
             ],

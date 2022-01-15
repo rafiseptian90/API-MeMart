@@ -16,7 +16,7 @@ class ParentIncomeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'amount' => $this->amount,
             'score' => $this->score,
             'students' => StudentResource::collection($this->whenLoaded('students'))
         ];

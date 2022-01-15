@@ -16,19 +16,19 @@ class ParentIncomeSeeder extends Seeder
     {
         $criterias = [
             [
-                'name' => 'More than Rp 3.000.000',
+                'amount' => 'More than Rp 3.000.000',
                 'score' => 1,
             ],
             [
-                'name' => 'Between Rp 2.000.000 and Rp 3.000.000',
+                'amount' => 'Between Rp 2.000.000 and Rp 3.000.000',
                 'score' => 3,
             ],
             [
-                'name' => 'Between Rp 1.000.000 and Rp 2.000.000',
+                'amount' => 'Between Rp 1.000.000 and Rp 2.000.000',
                 'score' => 5,
             ],
             [
-                'name' => 'Less than Rp 1.000.000',
+                'amount' => 'Less than Rp 1.000.000',
                 'score' => 7,
             ],
         ];

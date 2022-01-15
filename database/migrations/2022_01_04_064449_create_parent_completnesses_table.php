@@ -15,7 +15,7 @@ class CreateParentCompletnessesTable extends Migration
     {
         Schema::create('parent_completnesses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('type');
             $table->integer('score');
             $table->timestamps();
             $table->softDeletes();

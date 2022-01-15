@@ -15,7 +15,7 @@ class CreateParentIncomesTable extends Migration
     {
         Schema::create('parent_incomes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('amount');
             $table->integer('score');
             $table->timestamps();
             $table->softDeletes();
