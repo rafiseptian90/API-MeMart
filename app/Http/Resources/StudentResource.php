@@ -23,6 +23,7 @@ class StudentResource extends JsonResource
             'parent_completness' => ParentCompletness::make($this->whenLoaded('parent_completness')),
             'parent_income' => ParentIncomeResource::make($this->whenLoaded('parent_income')),
             'other_criteria' => OtherCriteriaResource::make($this->whenLoaded('other_criteria')),
+            'profits' => ProfitResource::collection($this->whenLoaded('profits')),
         ];
     }
 }

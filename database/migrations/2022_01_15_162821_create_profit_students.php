@@ -23,6 +23,7 @@ class CreateProfitStudents extends Migration
                   ->constrained('students')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

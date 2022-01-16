@@ -37,4 +37,7 @@ Route::group([
 
     // Parent Completness Resource
     Route::apiResource('parent-completness', 'ParentCompletnessController');
+
+    // Profit Resource
+    Route::apiResource('profit', 'ProfitController');
 });

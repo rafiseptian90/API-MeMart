@@ -34,4 +34,9 @@ trait StudentRelations
     public function other_criteria () {
         return $this->belongsTo(OtherCriteria::class, 'other_criteria_id');
     }
+
+    // many to many to Profit
+    public function profits () {
+        return $this->belongsToMany(Student::class, 'profit_students', 'student_id', 'profit_id')->withPivot(['date'])->withTimestamps();
+    }
 }
