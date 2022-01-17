@@ -36,7 +36,7 @@ class CreateStudentsTable extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->char('nisn', 10);
-            $table->tinyInteger('is_reseller');
+            $table->tinyInteger('is_reseller')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
