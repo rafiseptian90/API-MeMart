@@ -49,11 +49,7 @@ class EloquentParentCompletnessRepository implements ParentCompletnessRepository
     public function updateParentCompletness(array $requests, int $id): bool
     {
         $parent = ParentCompletness::findOrFail($id);
-        $res = $parent->update($requests);
-
-        if (!$res) { 
-            return false;
-        }
+        $parent->update($requests);
 
         return true;
     }

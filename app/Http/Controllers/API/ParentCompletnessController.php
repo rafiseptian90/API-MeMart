@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParentCompletness\StoreParentCompletnessRequest;
+use App\Http\Requests\ParentCompletness\UpdateParentCompletnessRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Repositories\EloquentParentCompletnessRepository;
 use Illuminate\Http\JsonResponse;
@@ -40,11 +41,7 @@ class ParentCompletnessController extends Controller
     {
         $requests = $request->validated();
 
-        $res = $this->parentCompletnessRepo->storeParentCompletness($requests);
-
-        if (!$res) {
-            return ResponseJSON::unprocessableEntity('Unprocessable Entity');
-        }
+        $this->parentCompletnessRepo->storeParentCompletness($requests);
 
         return ResponseJSON::success('New Parent Completness has been added');
     }
@@ -65,19 +62,15 @@ class ParentCompletnessController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\ParentCompletness\UpdateParentCompletnessRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateParentCompletnessRequest $request, $id)
     {
         $requests = $request->validated();
 
-        $res = $this->parentCompletnessRepo->updateParentCompletness($requests, $id);
-
-        if (!$res) {
-            return ResponseJSON::unprocessableEntity('Unprocessable Entity');
-        }
+        $this->parentCompletnessRepo->updateParentCompletness($requests, $id);
 
         return ResponseJSON::success('Parent Completness has been updated');
     }
