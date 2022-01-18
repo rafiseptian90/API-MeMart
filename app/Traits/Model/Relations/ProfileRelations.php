@@ -8,7 +8,7 @@ use App\Models\User;
 trait ProfileRelations
 {
     // Has One to Student
-    public function students () {
+    public function student () {
         return $this->hasOne(Student::class, 'profile_id');
     }
 

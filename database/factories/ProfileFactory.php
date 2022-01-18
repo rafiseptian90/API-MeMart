@@ -19,6 +19,8 @@ class ProfileFactory extends Factory
             'name' => $this->faker->name,
             'gender' => ['male', 'female'][rand(0, 1)],
             'address' => $this->faker->address,
+            'card_number' => rand(1000000000, 3000000000),
+            'card_type' => 'nisn',
             'phone_number' => $this->faker->phoneNumber
         ];
     }

@@ -40,4 +40,7 @@ Route::group([
 
     // Profit Resource
     Route::apiResource('profit', 'ProfitController');
+
+    // Student Resource
+    Route::apiResource('student', 'StudentController');
 });

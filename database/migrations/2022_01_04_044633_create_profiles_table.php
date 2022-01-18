@@ -20,7 +20,9 @@ class CreateProfilesTable extends Migration
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->string('name');
-            $table->char('phone_number', 20)->unique();
+            $table->string('card_number')->unique();
+            $table->enum('card_type', ['nip', 'nisn']);
+            $table->string('phone_number')->unique();
             $table->enum('gender', ['male', 'female']);
             $table->text('address');
             $table->string('photo')->nullable();
