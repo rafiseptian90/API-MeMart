@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ParentIncome\StoreParentIncomeRequest;
+use App\Http\Requests\ParentIncome\UpdateParentIncomeRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Repositories\EloquentParentIncomeRepository;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class ParentIncomeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param App\Http\Requests\ParentIncome\StoreParentIncomeRequest $request
+     * @param \App\Http\Requests\ParentIncome\StoreParentIncomeRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreParentIncomeRequest $request)
@@ -63,11 +64,11 @@ class ParentIncomeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param App\Http\Requests\ParentIncome\UpdateParentIncomeRequest $request
+     * @param \App\Http\Requests\ParentIncome\UpdateParentIncomeRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateParentIncomeRequest $request, $id)
     {
         $requests = $request->validated();
 

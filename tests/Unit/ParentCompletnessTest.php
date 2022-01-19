@@ -40,7 +40,7 @@ it('can create a new parent completness', function(){
          ]);
 });
 
-it('can update a classroom', function(){
+it('can update a parent completness', function(){
     $parentCompletness = ParentCompletness::create(['type' => 'Blabla Type', 'score' => 5]);
 
     $this->putJson('api/v1/parent-completness/' . $parentCompletness->id, ['type' => 'Blabla updated type', 'score' => 5])
