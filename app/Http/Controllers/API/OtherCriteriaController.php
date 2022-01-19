@@ -40,13 +40,9 @@ class OtherCriteriaController extends Controller
     {
         $requests = $request->validated();
 
-        $res = $this->otherCriteriaRepo->storeOtherCriteria($requests);
+        $this->otherCriteriaRepo->storeOtherCriteria($requests);
 
-        if (!$res) {
-            return ResponseJSON::internalServerError('Internal Server Error');
-        }
-
-        return ResponseJSON::success('Other Criteria has been added');
+        return ResponseJSON::success('New Other Criteria has been added');
     }
 
     /**
@@ -73,11 +69,7 @@ class OtherCriteriaController extends Controller
     {
         $requests = $request->validated();
 
-        $res = $this->otherCriteriaRepo->updateOtherCriteria($requests, $id);
-
-        if (!$res) {
-            return ResponseJSON::internalServerError('Internal Server Error');
-        }
+        $this->otherCriteriaRepo->updateOtherCriteria($requests, $id);
 
         return ResponseJSON::success('Other Criteria has been updated');
     }
