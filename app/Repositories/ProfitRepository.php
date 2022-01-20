@@ -34,8 +34,7 @@ class EloquentProfitRepository implements ProfitRepository {
 
     public function storeProfit(array $requests): bool
     {
-        $profit = Profit::create(Arr::except($requests, ['students', 'date']));
-        $profit->students()->attach($requests['students'], ['date' => $requests['date']]);
+        $profit = Profit::create($requests);
 
         if (!$profit) {
             throw new Exception("Unprocessable Entity");
@@ -54,13 +53,7 @@ class EloquentProfitRepository implements ProfitRepository {
     public function updateProfit(array $requests, int $id): bool
     {
         $profit = Profit::findOrFail($id);
-        
-        if (Arr::exists($requests, ['students'])) {
-            $profit->students()->detach();
-            $profit->students()->attach($requests['students'], ['date' => $requests['date']]);
-        }
-        
-        $res = $profit->update(Arr::except($requests, ['students', 'date']));
+        $res = $profit->update($requests);
 
         if (!$res) {
             throw new Exception("Unprocessable Entity");

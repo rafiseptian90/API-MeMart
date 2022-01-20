@@ -39,14 +39,11 @@ class ProfitController extends Controller
     public function store(StoreProfitRequest $request): JsonResponse
     {
         $requests = $request->all();
-        $request->has('students') 
-                ? $requests['students'] = json_decode($request->students) 
-                : '';
 
         try {
             $this->profitRepo->storeProfit($requests);
 
-            return ResponseJSON::success('New profit has been added');
+            return ResponseJSON::success('New Profit has been added');
         } catch (\Exception $e) {
             return ResponseJSON::internalServerError($e);
         }
@@ -75,9 +72,6 @@ class ProfitController extends Controller
     public function update(Request $request, $id)
     {
         $requests = $request->all();
-        $request->has('students') 
-                ? $requests['students'] = json_decode($request->students) 
-                : '';
 
         try {
             $this->profitRepo->updateProfit($requests, $id);
