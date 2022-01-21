@@ -18,9 +18,9 @@ class StudentResource extends JsonResource
         return [
             'nisn' => $this->nisn,
             'is_reseller' => $this->is_reseller,
-            'profile' => ProfileResource::make($this->whenLoaded('profile')),
             'classroom' => ClassroomResource::make($this->whenLoaded('classroom')),
-            'parent_completness' => ParentCompletness::make($this->whenLoaded('parent_completness')),
+            'profile' => ProfileResource::make($this->whenLoaded('profile')),
+            'parent_completness' => ParentCompletnessResource::make($this->whenLoaded('parent_completness')),
             'parent_income' => ParentIncomeResource::make($this->whenLoaded('parent_income')),
             'other_criteria' => OtherCriteriaResource::make($this->whenLoaded('other_criteria')),
             'profits' => ProfitResource::collection($this->whenLoaded('profits')),

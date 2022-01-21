@@ -23,7 +23,7 @@ class CreateProfilesTable extends Migration
             $table->string('card_number')->unique();
             $table->enum('card_type', ['nip', 'nisn']);
             $table->string('phone_number')->unique();
-            $table->enum('gender', ['male', 'female']);
+            $table->enum('gender', ['M', 'F']);
             $table->text('address');
             $table->string('photo')->nullable();
             $table->timestamps();

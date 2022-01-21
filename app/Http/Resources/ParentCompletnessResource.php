@@ -16,7 +16,7 @@ class ParentCompletnessResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'type' => $this->type,
             'score' => $this->score,
             'students' => StudentResource::collection($this->whenLoaded('students'))
         ];

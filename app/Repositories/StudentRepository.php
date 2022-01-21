@@ -23,24 +23,24 @@ class EloquentStudentRepository implements StudentRepository {
     public function getStudents(): JsonSerializable
     {
         $students = StudentResource::collection(
-                        Student::with(['classroom', 'parent_completness', 'parent_income', 'other_criteria', 'profile'])
-                                ->get()
-                    )
-                    ->groupBy('classroom.name');
+            Student::with(['classroom', 'profile', 'parent_completness', 'parent_income', 'other_criteria'])
+                    ->latest()
+                    ->get()
+        );
 
         return $students;
     }
 
     public function storeStudent(array $requests): bool
     {
-        $user = User::create((array) $requests['userRequests']);
-        $profile = $user->profile()->create((array) $requests['profileRequests']);
-        $student = $profile->student()->create((array) $requests['studentRequests']);
-
-
-        if (!$student) {
-            throw new Exception("Something went wrong, cannot create a new student");
-        }
+        DB::transaction(function() use($requests){
+            $user = User::create((array) $requests['userRequests']);
+            $requests['profileRequests']['user_id'] = $user->id;
+            $profile = Profile::create((array) $requests['profileRequests']);
+            $requests['studentRequests']['profile_id'] = $profile->id;
+            
+            Student::create((array) $requests['studentRequests']);
+        });
 
         return true;
     }
@@ -48,7 +48,7 @@ class EloquentStudentRepository implements StudentRepository {
     public function getStudent(int $id): JsonSerializable
     {
         $student = StudentResource::make(
-                        Student::with(['classroom', 'parent_completness', 'parent_income', 'other_criteria', 'profile'])
+                        Student::with(['classroom', 'parent_completness', 'parent_income', 'other_criteria', 'profile', 'profits'])
                                 ->findOrFail($id)
                     );
             

@@ -7,6 +7,7 @@ use App\Models\OtherCriteria;
 use App\Models\ParentCompletness;
 use App\Models\ParentIncome;
 use App\Models\Profile;
+use App\Models\Profit;
 
 trait StudentRelations
 {
@@ -37,6 +38,6 @@ trait StudentRelations
 
     // many to many to Profit
     public function profits () {
-        return $this->belongsToMany(Student::class, 'profit_students', 'student_id', 'profit_id')->withPivot(['date'])->withTimestamps();
+        return $this->belongsToMany(Profit::class, 'profit_students', 'student_id', 'profit_id')->withPivot(['date'])->withTimestamps();
     }
 }

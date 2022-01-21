@@ -29,9 +29,9 @@ class UpdateStudentRequest extends FormRequest
             'parent_completness_id' => 'required',
             'parent_income_id' => 'required',
             'other_criteria_id' => 'required',
-            'nisn' => [
+            'card_number' => [
                 'required',
-                Rule::unique('students')->ignore($this->route('student'))->whereNull('deleted_at')
+                Rule::unique('profiles')->ignore($this->route('student'))->whereNull('deleted_at')
             ]
         ];
     }

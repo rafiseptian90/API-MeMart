@@ -11,6 +11,9 @@ class Student extends Model
 {
     use HasFactory, SoftDeletes, StudentRelations;
 
+    const IS_A_RESELLER = 1;
+    const IS_NOT_A_RESELLER = 0;
+
     protected $fillable = [
         'classroom_id',
         'profile_id',

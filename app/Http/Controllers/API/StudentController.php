@@ -40,11 +40,11 @@ class StudentController extends Controller
         $requests = $request->all();
 
         $studentRequests = Arr::except($requests, [
-                                ['name','card_number','card_type','phone_number','gender','address','photo']
+                                'name','card_number','card_type','phone_number','gender','address','photo'
                            ]);
 
         $profileRequests = Arr::only($requests, [
-                                ['name','card_number','card_type','phone_number','gender','address','photo']
+                                'name','card_number','card_type','phone_number','gender','address','photo'
                            ]);
 
         $userRequests = [
@@ -58,13 +58,9 @@ class StudentController extends Controller
             'userRequests' => $userRequests
         ];
 
-        try {
-            $this->studentRepo->storeStudent($requests);
+        $this->studentRepo->storeStudent($requests);
 
-            return ResponseJSON::success('New Student has been added');
-        } catch (\Exception $e) {
-            return ResponseJSON::internalServerError($e);
-        }
+        return ResponseJSON::success('New Student has been added');
     }
 
     /**
@@ -92,11 +88,11 @@ class StudentController extends Controller
         $requests = $request->all();
 
         $studentRequests = Arr::except($requests, [
-                                ['name','card_number','card_type','phone_number','gender','address','photo']
+                                'name','card_number','card_type','phone_number','gender','address','photo'
                            ]);
 
         $profileRequests = Arr::only($requests, [
-                                ['name','card_number','card_type','phone_number','gender','address','photo']
+                                'name','card_number','card_type','phone_number','gender','address','photo'
                            ]);
 
         $userRequests = [
