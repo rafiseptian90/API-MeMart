@@ -90,7 +90,6 @@ it('can update a student', function(){
              'code_status' => 200,
              'msg_status' => 'Student has been updated'
          ]);
-
 });
 
 it('can delete a student', function(){
