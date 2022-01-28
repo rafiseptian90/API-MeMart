@@ -26,7 +26,8 @@ class EloquentStudentRepository implements StudentRepository {
             Student::with(['classroom', 'profile', 'parent_completness', 'parent_income', 'other_criteria'])
                     ->latest()
                     ->get()
-        );
+        )
+        ->groupBy('classroom.name');
 
         return $students;
     }

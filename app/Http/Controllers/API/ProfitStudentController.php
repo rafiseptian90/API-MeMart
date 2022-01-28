@@ -3,18 +3,29 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Libs\Response\ResponseJSON;
+use App\Repositories\EloquentProfitStudentRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProfitStudentController extends Controller
 {
+    private $profitStudentRepo;
+
+    public function __construct(EloquentProfitStudentRepository $profitStudentRepo)
+    {
+        $this->profitStudentRepo = $profitStudentRepo;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        $studentProfits = $this->profitStudentRepo->getProfitStudents();
+
+        return ResponseJSON::successWithData('Profit Students has been loaded', $studentProfits);
     }
 
     /**
@@ -25,7 +36,11 @@ class ProfitStudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $requests = (array) $request->profit_students;
+
+        $this->profitStudentRepo->storeProfitStudent($requests);
+
+        return ResponseJSON::success('Profit Students has been stored');
     }
 
     /**
@@ -36,7 +51,9 @@ class ProfitStudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $profitStudent = $this->profitStudentRepo->getProfitStudent($id);
+
+        return ResponseJSON::successWithData('Student Profit has been loaded', $profitStudent);
     }
 
     /**
@@ -48,7 +65,11 @@ class ProfitStudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $requests = $request->only(['profit_id', 'date', 'amount']);
+
+        $this->profitStudentRepo->updateProfitStudent($requests, $id);
+
+        return ResponseJSON::success('Profit Student has been updated');
     }
 
     /**
@@ -59,6 +80,8 @@ class ProfitStudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->profitStudentRepo->destroyProfitStudent($id);
+
+        return ResponseJSON::success('Profit Student has been deleted');
     }
 }

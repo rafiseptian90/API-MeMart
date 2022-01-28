@@ -34,10 +34,12 @@ class EloquentProfitStudentRepository implements ProfitStudentRepository {
 
     public function storeProfitStudent(array $requests): bool
     {
-        $student = Student::findOrFail($requests['student_id']);
-        $profitID = 1;
-
-        $student->profits()->attach($profitID, ['date' => $requests['date'], 'amount' => $requests['amount']]);
+        foreach ($requests as $request) {
+            DB::transaction(function() use($request){
+                $student = Student::findOrFail($request['student_id']);
+                $student->profits()->attach($request['profit_id'], ['date' => $request['date'], 'amount' => $request['amount']]);
+            });
+        }
 
         return true;
     }
