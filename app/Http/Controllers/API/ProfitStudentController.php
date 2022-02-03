@@ -65,11 +65,7 @@ class ProfitStudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $requests = $request->only(['profit_id', 'date', 'amount']);
-
-        $this->profitStudentRepo->updateProfitStudent($requests, $id);
-
-        return ResponseJSON::success('Profit Student has been updated');
+        //
     }
 
     /**

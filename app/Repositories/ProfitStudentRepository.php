@@ -37,7 +37,15 @@ class EloquentProfitStudentRepository implements ProfitStudentRepository {
         foreach ($requests as $request) {
             DB::transaction(function() use($request){
                 $student = Student::findOrFail($request['student_id']);
-                $student->profits()->attach($request['profit_id'], ['date' => $request['date'], 'amount' => $request['amount']]);
+                DB::table('profit_students')->updateOrInsert(
+                    ['student_id' => $student->id, 'date' => Carbon::parse($request['date'])->format('Y-m-d')],
+                    [
+                        'student_id' => $student->id,
+                        'profit_id' => $request['profit_id'], 
+                        'date' => $request['date'],
+                        'amount' => $request['amount']
+                    ]
+                );
             });
         }
 
