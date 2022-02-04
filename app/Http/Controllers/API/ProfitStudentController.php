@@ -36,7 +36,7 @@ class ProfitStudentController extends Controller
      */
     public function store(Request $request)
     {
-        $requests = (array) $request->profit_students;
+        $requests = json_decode($request->profit_students);
 
         $this->profitStudentRepo->storeProfitStudent($requests);
 
@@ -65,7 +65,9 @@ class ProfitStudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->profitStudentRepo->updateProfitStudent($request->only(['student_id', 'profit_id', 'date', 'amount']), $id);
+
+        return ResponseJSON::success('Profit Student has been updated');
     }
 
     /**

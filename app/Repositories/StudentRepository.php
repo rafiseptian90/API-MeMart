@@ -7,7 +7,6 @@ use App\Models\Profile;
 use App\Models\Student;
 use App\Models\User;
 use JsonSerializable;
-use Exception;
 use Illuminate\Support\Facades\DB;
 
 interface StudentRepository {

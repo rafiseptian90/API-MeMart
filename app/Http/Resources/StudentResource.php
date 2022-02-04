@@ -16,7 +16,6 @@ class StudentResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'nisn' => $this->nisn,
             'is_reseller' => $this->is_reseller,
             'classroom' => ClassroomResource::make($this->whenLoaded('classroom')),
             'profile' => ProfileResource::make($this->whenLoaded('profile')),

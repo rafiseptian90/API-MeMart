@@ -20,7 +20,8 @@ class ProfileResource extends JsonResource
             'phone_number' => $this->phone_number,
             'gender' => $this->gender,
             'address' => $this->address,
-            'photo' => $this->photo,
+            'card_type' => $this->card_type,
+            'card_number' => $this->card_number,
         ];
     }
 }

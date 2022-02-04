@@ -36,14 +36,14 @@ class EloquentProfitStudentRepository implements ProfitStudentRepository {
     {
         foreach ($requests as $request) {
             DB::transaction(function() use($request){
-                $student = Student::findOrFail($request['student_id']);
+                $student = Student::findOrFail($request->student_id);
                 DB::table('profit_students')->updateOrInsert(
-                    ['student_id' => $student->id, 'date' => Carbon::parse($request['date'])->format('Y-m-d')],
+                    ['student_id' => $student->id, 'date' => Carbon::parse($request->date)->format('Y-m-d')],
                     [
                         'student_id' => $student->id,
-                        'profit_id' => $request['profit_id'], 
-                        'date' => $request['date'],
-                        'amount' => $request['amount']
+                        'profit_id' => $request->profit_id, 
+                        'date' => $request->date,
+                        'amount' => $request->amount
                     ]
                 );
             });
@@ -64,11 +64,11 @@ class EloquentProfitStudentRepository implements ProfitStudentRepository {
 
     public function updateProfitStudent(array $requests, int $id): bool
     {
-        DB::table('profit_students')
+        $profitStudent = DB::table('profit_students')
           ->whereStudentId($id)
-          ->whereDate($requests['date'])
-          ->first()
-          ->update($requests);
+          ->whereDate('date', $requests['date']);
+
+          $profitStudent->update($requests);
 
           return true;
     }
@@ -77,7 +77,7 @@ class EloquentProfitStudentRepository implements ProfitStudentRepository {
     {
         DB::table('profit_students')
           ->whereStudentId($id)
-          ->whereDate(request()->query('date'))
+          ->whereDate('date', request()->query('date'))
           ->delete();
 
         return true;
