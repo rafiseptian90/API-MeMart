@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassroomRequest\StoreClassroomRequest;
 use App\Http\Requests\ClassroomRequest\UpdateClassroomRequest;
 use App\Libs\Response\ResponseJSON;
+use App\Models\Classroom;
 use App\Repositories\EloquentClassroomRepository;
 use Illuminate\Http\JsonResponse;
 
@@ -16,7 +17,7 @@ class ClassroomController extends Controller
     public function __construct(EloquentClassroomRepository $classroomRepo)
     {
         $this->classroomRepo = $classroomRepo;
-
+        
         $this->middleware('auth:sanctum');
     }
     /**
@@ -26,9 +27,7 @@ class ClassroomController extends Controller
      */
     public function index() : JsonResponse
     {
-        if (!auth()->user()->tokenCan('browse_classroom')) {
-            return ResponseJSON::forbidden('Access Forbidden');
-        }
+        $this->authorize('viewAny', Classroom::class);
 
         $clasrooms = $this->classroomRepo->getClassrooms();
 
@@ -43,9 +42,7 @@ class ClassroomController extends Controller
      */
     public function store(StoreClassroomRequest $request) : JsonResponse
     {
-        if (!auth()->user()->tokenCan('create_classroom')) {
-            return ResponseJSON::forbidden('Access Forbidden');
-        }
+        $this->authorize('create', Classroom::class);
 
         $requests = $request->validated();
 
@@ -62,9 +59,7 @@ class ClassroomController extends Controller
      */
     public function show($id) : JsonResponse
     {
-        if (!auth()->user()->tokenCan('read_classroom')) {
-            return ResponseJSON::forbidden('Access Forbidden');
-        }
+        $this->authorize('view', Classroom::find($id));
 
         $classroom = $this->classroomRepo->getClassroom($id);
 
@@ -80,9 +75,7 @@ class ClassroomController extends Controller
      */
     public function update(UpdateClassroomRequest $request, $id) : JsonResponse
     {
-        if (!auth()->user()->tokenCan('update_classroom')) {
-            return ResponseJSON::forbidden('Access Forbidden');
-        }
+        $this->authorize('update', Classroom::find($id));
 
         $requests = $request->validated();
 
@@ -99,9 +92,7 @@ class ClassroomController extends Controller
      */
     public function destroy($id) : JsonResponse
     {
-        if (!auth()->user()->tokenCan('delete_classroom')) {
-            return ResponseJSON::forbidden('Access Forbidden');
-        }
+        $this->authorize('delete', Classroom::find($id));
 
         if ($this->classroomRepo->destroyClassroom($id)) {
             return ResponseJSON::success('Classroom has been deleted');

@@ -14,4 +14,9 @@ class Classroom extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'classroom';
+    }
 }
