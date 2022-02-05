@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OtherCriteria\StoreOtherCriteriaRequest;
 use App\Http\Requests\OtherCriteria\UpdateOtherCriteriaRequest;
 use App\Libs\Response\ResponseJSON;
+use App\Models\OtherCriteria;
 use App\Repositories\EloquentOtherCriteriaRepository;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,8 @@ class OtherCriteriaController extends Controller
     public function __construct(EloquentOtherCriteriaRepository $otherCriteriaRepo)
     {
         $this->otherCriteriaRepo = $otherCriteriaRepo;   
+
+        $this->middleware('auth:sanctum');
     }
     
     /**
@@ -25,6 +28,8 @@ class OtherCriteriaController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', OtherCriteria::class);
+
         $criterias = $this->otherCriteriaRepo->getOtherCriterias();
 
         return ResponseJSON::successWithData('Other Criterias has been loaded', $criterias);
@@ -38,6 +43,8 @@ class OtherCriteriaController extends Controller
      */
     public function store(StoreOtherCriteriaRequest $request)
     {
+        $this->authorize('create', OtherCriteria::class);
+
         $requests = $request->validated();
 
         $this->otherCriteriaRepo->storeOtherCriteria($requests);
@@ -53,6 +60,8 @@ class OtherCriteriaController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view', OtherCriteria::find($id));
+
         $criteria = $this->otherCriteriaRepo->getOtherCriteria($id);
 
         return ResponseJSON::successWithData('Other Criteria has been loaded', $criteria);
@@ -67,6 +76,8 @@ class OtherCriteriaController extends Controller
      */
     public function update(UpdateOtherCriteriaRequest $request, $id)
     {
+        $this->authorize('update', OtherCriteria::find($id));
+
         $requests = $request->validated();
 
         $this->otherCriteriaRepo->updateOtherCriteria($requests, $id);
@@ -82,6 +93,8 @@ class OtherCriteriaController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', OtherCriteria::find($id));
+
         $res = $this->otherCriteriaRepo->destroyOtherCriteria($id);
 
         if (!$res) {

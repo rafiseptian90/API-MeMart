@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ParentCompletness\StoreParentCompletnessRequest;
 use App\Http\Requests\ParentCompletness\UpdateParentCompletnessRequest;
 use App\Libs\Response\ResponseJSON;
+use App\Models\ParentCompletness;
 use App\Repositories\EloquentParentCompletnessRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ParentCompletnessController extends Controller
 {
@@ -17,6 +17,8 @@ class ParentCompletnessController extends Controller
     public function __construct(EloquentParentCompletnessRepository $parentCompletnessRepo)
     {
         $this->parentCompletnessRepo = $parentCompletnessRepo;
+
+        $this->middleware('auth:sanctum');
     }
 
     /**
@@ -26,6 +28,8 @@ class ParentCompletnessController extends Controller
      */
     public function index(): JsonResponse
     {
+        $this->authorize('viewAny', ParentCompletness::class);
+
         $parents = $this->parentCompletnessRepo->getParentCompletnesses();
 
         return ResponseJSON::successWithData('Parent Completnesses has been loaded', $parents);
@@ -39,6 +43,8 @@ class ParentCompletnessController extends Controller
      */
     public function store(StoreParentCompletnessRequest $request): JsonResponse
     {
+        $this->authorize('create', ParentCompletness::class);
+
         $requests = $request->validated();
 
         $this->parentCompletnessRepo->storeParentCompletness($requests);
@@ -54,6 +60,8 @@ class ParentCompletnessController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view', ParentCompletness::find($id));
+
         $parent = $this->parentCompletnessRepo->getParentCompletness($id);
 
         return ResponseJSON::successWithData('Parent Completness has been loaded', $parent);
@@ -68,6 +76,8 @@ class ParentCompletnessController extends Controller
      */
     public function update(UpdateParentCompletnessRequest $request, $id)
     {
+        $this->authorize('update', ParentCompletness::find($id));
+
         $requests = $request->validated();
 
         $this->parentCompletnessRepo->updateParentCompletness($requests, $id);
@@ -83,6 +93,8 @@ class ParentCompletnessController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', ParentCompletness::find($id));
+
         $res = $this->parentCompletnessRepo->destroyParentCompletness($id);
 
         if (!$res) {

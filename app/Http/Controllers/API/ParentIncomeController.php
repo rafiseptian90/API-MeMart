@@ -8,7 +8,6 @@ use App\Http\Requests\ParentIncome\UpdateParentIncomeRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\ParentIncome;
 use App\Repositories\EloquentParentIncomeRepository;
-use Illuminate\Http\Request;
 
 class ParentIncomeController extends Controller
 {

@@ -2,12 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\ParentIncome;
+use App\Models\OtherCriteria;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class ParentIncomePolicy
+class OtherCriteriaPolicy
 {
     use HandlesAuthorization;
 
@@ -19,19 +19,19 @@ class ParentIncomePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->tokenCan('browse_parent_income') ? Response::allow() : Response::deny('Access Forbidden');
+        return $user->tokenCan('browse_other_criteria') ? Response::allow() : Response::deny('Access Forbidden');
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParentIncome  $parentIncome
+     * @param  \App\Models\OtherCriteria  $otherCriteria
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, ParentIncome $parentIncome)
+    public function view(User $user, OtherCriteria $otherCriteria)
     {
-        return $user->tokenCan('read_parent_income') ? Response::allow() : Response::deny('Access Forbidden');
+        return $user->tokenCan('read_other_criteria') ? Response::allow() : Response::deny('Access Forbidden');
     }
 
     /**
@@ -42,41 +42,41 @@ class ParentIncomePolicy
      */
     public function create(User $user)
     {
-        return $user->tokenCan('create_parent_income') ? Response::allow() : Response::deny('Action Denied');
+        return $user->tokenCan('create_other_criteria') ? Response::allow() : Response::deny('Action Denied');
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParentIncome  $parentIncome
+     * @param  \App\Models\OtherCriteria  $otherCriteria
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ParentIncome $parentIncome)
+    public function update(User $user, OtherCriteria $otherCriteria)
     {
-        return $user->tokenCan('update_parent_income') ? Response::allow() : Response::deny('Action Denied');
+        return $user->tokenCan('update_other_criteria') ? Response::allow() : Response::deny('Action Denied');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParentIncome  $parentIncome
+     * @param  \App\Models\OtherCriteria  $otherCriteria
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ParentIncome $parentIncome)
+    public function delete(User $user, OtherCriteria $otherCriteria)
     {
-        return $user->tokenCan('delete_parent_income') ? Response::allow() : Response::deny('Action Denied');
+        return $user->tokenCan('delete_other_criteria') ? Response::allow() : Response::deny('Action Denied');
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParentIncome  $parentIncome
+     * @param  \App\Models\OtherCriteria  $otherCriteria
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, ParentIncome $parentIncome)
+    public function restore(User $user, OtherCriteria $otherCriteria)
     {
         //
     }
@@ -85,10 +85,10 @@ class ParentIncomePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParentIncome  $parentIncome
+     * @param  \App\Models\OtherCriteria  $otherCriteria
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, ParentIncome $parentIncome)
+    public function forceDelete(User $user, OtherCriteria $otherCriteria)
     {
         //
     }
