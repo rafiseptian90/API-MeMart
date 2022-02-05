@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Student\StoreStudentRequest;
 use App\Http\Requests\Student\UpdateStudentRequest;
 use App\Libs\Response\ResponseJSON;
+use App\Models\Student;
 use App\Repositories\EloquentStudentRepository;
 use Illuminate\Support\Arr;
 
@@ -16,6 +17,8 @@ class StudentController extends Controller
     public function __construct(EloquentStudentRepository $studentRepo)
     {
         $this->studentRepo = $studentRepo;
+
+        $this->middleware('auth:sanctum');
     }
     /**
      * Display a listing of the resource.
@@ -24,6 +27,8 @@ class StudentController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Student::class);
+
         $students = $this->studentRepo->getStudents();
 
         return ResponseJSON::successWithData('Students has been loaded', $students);
@@ -37,6 +42,8 @@ class StudentController extends Controller
      */
     public function store(StoreStudentRequest $request)
     {
+        $this->authorize('create', Student::class);
+
         $requests = $request->all();
 
         $studentRequests = Arr::except($requests, [
@@ -71,6 +78,8 @@ class StudentController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view', Student::find($id));
+
         $student = $this->studentRepo->getStudent($id);
 
         return ResponseJSON::successWithData('Student has been loaded', $student);
@@ -85,6 +94,8 @@ class StudentController extends Controller
      */
     public function update(UpdateStudentRequest $request, $id)
     {
+        $this->authorize('update', Student::find($id));
+
         $requests = $request->all();
 
         $studentRequests = Arr::except($requests, [
@@ -122,6 +133,8 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Student::find($id));
+
         $this->studentRepo->destroyStudent($id);
         
         return ResponseJSON::success('Student has been deleted');

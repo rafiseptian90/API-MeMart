@@ -17,6 +17,8 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\ParentIncome' => 'App\Policies\ParentIncomePolicy',
         'App\Models\ParentCompletness' => 'App\Policies\ParentCompletnessPolicy',
         'App\Models\OtherCriteria' => 'App\Policies\OtherCriteriaPolicy',
+        'App\Models\Profit' => 'App\Policies\ProfitPolicy',
+        'App\Models\Student' => 'App\Policies\StudentPolicy',
     ];
 
     /**

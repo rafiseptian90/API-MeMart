@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profit\StoreProfitRequest;
 use App\Libs\Response\ResponseJSON;
+use App\Models\Profit;
 use App\Repositories\EloquentProfitRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,6 +17,8 @@ class ProfitController extends Controller
     public function __construct(EloquentProfitRepository $profitRepo)
     {
         $this->profitRepo = $profitRepo;
+
+        $this->middleware('auth:sanctum');
     }
 
     /**
@@ -25,6 +28,8 @@ class ProfitController extends Controller
      */
     public function index(): JsonResponse
     {
+        $this->authorize('viewAny', Profit::class);
+
         $profits = $this->profitRepo->getProfits();
 
         return ResponseJSON::successWithData('Profits has been loaded', $profits);
@@ -38,6 +43,8 @@ class ProfitController extends Controller
      */
     public function store(StoreProfitRequest $request): JsonResponse
     {
+        $this->authorize('create', Profit::class);
+
         $requests = $request->all();
 
         try {
@@ -57,6 +64,8 @@ class ProfitController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('view', Profit::find($id));
+
         $profit = $this->profitRepo->getProfit($id);
 
         return ResponseJSON::successWithData('Profit has been loaded', $profit);
@@ -71,6 +80,8 @@ class ProfitController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('update', Profit::find($id));
+
         $requests = $request->all();
 
         try {
@@ -90,6 +101,8 @@ class ProfitController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', Profit::find($id));
+
         $this->profitRepo->destroyProfit($id);
 
         return ResponseJSON::success('Profit has been deleted');
