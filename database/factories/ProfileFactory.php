@@ -15,7 +15,7 @@ class ProfileFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => $this->faker->unique()->randomElement(User::pluck('id')->all()),
+            'user_id' => $this->faker->unique()->numberBetween(1, User::count()),
             'name' => $this->faker->name,
             'gender' => ['M', 'F'][rand(0, 1)],
             'address' => $this->faker->address,

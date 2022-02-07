@@ -7,7 +7,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Role;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -38,7 +37,7 @@ class AuthController extends Controller
         } else if(auth()->user()->role->id === Role::OPERATOR_ID) {
             $token = auth()->user()->createToken(auth()->user()->username . ' secret token', Role::OPERATOR_PERMISSIONS)->plainTextToken;
         } else {
-            $token = auth()->user()->createToken(auth()->user()->username . ' secret token', [])->plainTextToken;
+            $token = auth()->user()->createToken(auth()->user()->username . ' secret token', Role::STUDENT_PERMISSIONS)->plainTextToken;
         }
 
         return ResponseJSON::successWithData('Login Successful', collect([

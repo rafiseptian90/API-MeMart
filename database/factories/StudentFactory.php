@@ -21,7 +21,7 @@ class StudentFactory extends Factory
     {
         return [
             'classroom_id' => $this->faker->randomElement(Classroom::pluck('id')->all()),
-            'profile_id' => $this->faker->unique()->numberBetween(1, Profile::count()),
+            'profile_id' => $this->faker->unique()->randomElement(Profile::pluck('id')->all()),
             'parent_completness_id' => $this->faker->randomElement(ParentCompletness::pluck('id')->all()),
             'parent_income_id' => $this->faker->randomElement(ParentIncome::pluck('id')->all()),
             'other_criteria_id' => $this->faker->randomElement(OtherCriteria::pluck('id')->all()),

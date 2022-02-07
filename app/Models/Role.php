@@ -88,6 +88,13 @@ class Role extends Model
         'delete_profit_student',
     ];
 
+    const STUDENT_PERMISSIONS = [
+        // Profit Student permissions
+        'access_profit_student',
+        'browse_profit_student',
+        'read_profit_student',
+    ];
+
     const SUPER_ADMIN_ID = 1;
     const OPERATOR_ID = 2;
     const STUDENT_ID = 3;

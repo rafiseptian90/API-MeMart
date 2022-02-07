@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profit\StoreProfitRequest;
+use App\Http\Requests\Profit\UpdateProfitRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Profit;
 use App\Repositories\EloquentProfitRepository;
@@ -74,11 +75,11 @@ class ProfitController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\Profit\UpdateProfitRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProfitRequest $request, $id)
     {
         $this->authorize('update', Profit::find($id));
 

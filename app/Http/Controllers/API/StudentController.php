@@ -56,7 +56,8 @@ class StudentController extends Controller
 
         $userRequests = [
             'username' => $requests['card_number'],
-            'password' => bcrypt(substr($requests['phone_number'], -5))
+            'password' => bcrypt(substr($requests['phone_number'], -5)),
+            'role_id' => 3
         ];
 
         $requests = [

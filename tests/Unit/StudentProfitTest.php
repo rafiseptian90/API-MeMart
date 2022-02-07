@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Carbon\Carbon;
 
 uses(Tests\TestCase::class);

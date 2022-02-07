@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Profile;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ProfileSeeder extends Seeder
@@ -15,6 +14,6 @@ class ProfileSeeder extends Seeder
      */
     public function run()
     {
-        Profile::factory(10)->create();
+        Profile::factory(20)->create();
     }
 }
