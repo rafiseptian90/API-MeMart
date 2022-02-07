@@ -43,8 +43,12 @@ class ProfitStudentController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'profit_students' => 'required'
+        ]);
+
         if (!auth()->user()->tokenCan('create_profit_student')) {
-            return Response::deny('Action Denied');
+            return ResponseJSON::forbidden('Action Denied');
         }
 
         $requests = json_decode($request->profit_students);
@@ -79,9 +83,16 @@ class ProfitStudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {        
+        $this->validate($request, [
+            'student_id' => 'required',
+            'profit_id' => 'required',
+            'date' => 'required|date|date_format:Y-m-d',
+            'amount' => 'required'
+        ]);
+
         if (!auth()->user()->tokenCan('update_profit_student')) {
-            return Response::deny('Action Denied');
+            return ResponseJSON::forbidden('Action Denied');
         }
 
         $this->profitStudentRepo->updateProfitStudent($request->only(['student_id', 'profit_id', 'date', 'amount']), $id);
@@ -98,7 +109,7 @@ class ProfitStudentController extends Controller
     public function destroy($id)
     {
         if (!auth()->user()->tokenCan('delete_profit_student')) {
-            return Response::deny('Action Denied');
+            return ResponseJSON::forbidden('Action Denied');
         }
 
         $this->profitStudentRepo->destroyProfitStudent($id);
