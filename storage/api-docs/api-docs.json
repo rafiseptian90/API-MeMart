@@ -1,0 +1,642 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API MeMart",
+        "description": "API MeMart Documentation using Swagger. Created By @rshme",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "rafiseptian90@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "api/v1"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login",
+                "description": "User Authentication Endpoint",
+                "operationId": "login",
+                "requestBody": {
+                    "description": "Fill user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "super.admin"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Me",
+                "description": "Show User Logged In Data",
+                "operationId": "me",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/auth/reset-password": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Reset Password",
+                "description": "Reset User Password Endpoint",
+                "operationId": "reset-password",
+                "requestBody": {
+                    "description": "Fill a field is needed for reseting a password",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "old_password",
+                                    "new_password",
+                                    "new_password_confirmation"
+                                ],
+                                "properties": {
+                                    "old_password": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "password"
+                                    },
+                                    "new_password": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "new_password"
+                                    },
+                                    "new_password_confirmation": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "new_password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout",
+                "description": "Logout Endpoint",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/classroom": {
+            "get": {
+                "tags": [
+                    "Classroom"
+                ],
+                "summary": "All Classroom",
+                "description": "Lists of Classroom",
+                "operationId": "classroom.index",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Classroom"
+                ],
+                "summary": "Store a new Classroom",
+                "description": "Store a new Classroom",
+                "operationId": "classroom.store",
+                "requestBody": {
+                    "description": "Fill some field for storing a new Classroom",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "XII RPL 2"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/classroom/{classroomID}": {
+            "get": {
+                "tags": [
+                    "Classroom"
+                ],
+                "summary": "Take one Classroom",
+                "description": "Take one Classroom by their ID",
+                "operationId": "classroom.show",
+                "parameters": [
+                    {
+                        "name": "classroomID",
+                        "in": "path",
+                        "description": "The ID Classroom that want to show",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Classroom ID not found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Classroom"
+                ],
+                "summary": "Update a Classroom",
+                "description": "Update a Classroom by their ID",
+                "operationID": "classroom.update",
+                "parameters": [
+                    {
+                        "name": "classroomID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of Classroom that want to update"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Fill a field needed for updating a Classroom",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "XII RPL 1"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Classroom ID not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Classroom"
+                ],
+                "summary": "Delete a Classroom",
+                "description": "Delete a Classroom by their ID",
+                "operationID": "classroom.delete",
+                "parameters": [
+                    {
+                        "name": "classroomID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of a Classroom that want to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Classroom ID not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/parent-income": {
+            "get": {
+                "tags": [
+                    "Parent Income"
+                ],
+                "summary": "All Parent Income",
+                "description": "Lists of Parent Income",
+                "operationId": "parent-income.index",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Parent Income"
+                ],
+                "summary": "Store a new Parent Income",
+                "description": "Store a new Parent Income",
+                "operationId": "parent-income.store",
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for storing a new Parent Income",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "amount", "score"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "More than Rp 5.000.000"
+                                    },
+                                    "score": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/parent-income/{parentIncomeID}": {
+            "get": {
+                "tags": [
+                    "Parent Income"
+                ],
+                "summary": "Take one Parent Income",
+                "description": "Take one Parent Income by their ID",
+                "operationId": "parent-income.show",
+                "parameters": [
+                    {
+                        "name": "parentIncomeID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of a Parent Income that want to show"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Parent Income ID not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Parent Income"
+                ],
+                "summary": "Update a Parent Income",
+                "description": "Update a Parent Income by their ID",
+                "operationID": "parent-income.update",
+                "parameters": [
+                    {
+                        "name": "parentIncomeID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of a Parent Income that want to update"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for updating a Parent Income",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": ["amount", "score"],
+                                "properties": {
+                                    "amount": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "More than Rp.5.500.000"
+                                    },
+                                    "score": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Parent Income ID not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Parent Income"
+                ],
+                "summary": "Delete a Parent Income",
+                "description": "Delete a Parent Income by their ID",
+                "operationID": "parent-income.delete",
+                "parameters": [
+                    {
+                        "name": "parentIncomeID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of a Parent Income that want to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Parent Income ID not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "api_key": {
+                "type": "http",
+                "description": "Fill Bearer token for the security",
+                "name": "api_key",
+                "in": "header",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

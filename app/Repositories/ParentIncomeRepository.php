@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Http\Resources\ParentIncomeResource;
 use App\Models\ParentIncome;
 use JsonSerializable;
+use Exception;
 
 interface ParentIncomeRespository {
     public function getParentIncomes () : JsonSerializable;
@@ -39,7 +40,9 @@ class EloquentParentIncomeRepository implements ParentIncomeRespository {
     public function getParentIncome(int $id): JsonSerializable
     {
         $income = ParentIncomeResource::make(
-            ParentIncome::with(['students'])
+            ParentIncome::with(['students' => function($student) {
+                            $student->with(['profile']);
+                        }])
                         ->findOrFail($id)
         );
 
@@ -63,8 +66,10 @@ class EloquentParentIncomeRepository implements ParentIncomeRespository {
         $income = ParentIncome::findOrFail($id);
         
         if (!$income->students->isEmpty()) {
-            return false;
+            throw new Exception("Cannot delete this parent income because they have a student data");   
         }
+
+        $income->delete();
 
         return true;
     }

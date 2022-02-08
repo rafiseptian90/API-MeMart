@@ -62,7 +62,7 @@ class ParentIncomeController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view', ParentIncome::find($id));
+        $this->authorize('view', ParentIncome::findOrFail($id));
 
         $income = $this->parentIncomeRepo->getParentIncome($id);
 
@@ -78,7 +78,7 @@ class ParentIncomeController extends Controller
      */
     public function update(UpdateParentIncomeRequest $request, $id)
     {
-        $this->authorize('update', ParentIncome::find($id));
+        $this->authorize('update', ParentIncome::findOrFail($id));
 
         $requests = $request->validated();
 
@@ -99,14 +99,13 @@ class ParentIncomeController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', ParentIncome::find($id));
+        $this->authorize('delete', ParentIncome::findOrFail($id));
 
-        $res = $this->parentIncomeRepo->destroyParentIncome($id);
-
-        if (!$res) {
-            return ResponseJSON::internalServerError('Internal Server Error');
+        try {
+            $this->parentIncomeRepo->destroyParentIncome($id);
+            return ResponseJSON::success('Parent Income has been deleted');
+        } catch (\Exception $ex) {
+            return ResponseJSON::unprocessableEntity($ex->getMessage());
         }
-
-        return ResponseJSON::success('Parent Income has been deleted');
     }
 }

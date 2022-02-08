@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Role;
+use App\Traits\AuthAPIDocs;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,12 +18,13 @@ class AuthController extends Controller
     {
         $this->middleware('auth:sanctum', ['except' => ['login']]);
     }
+
     /**
      * Login Method
      * @param \App\Http\Requests\Auth\LoginRequest $request
      * @return JsonResponse
-    */
-    public function login (LoginRequest $request): JsonResponse
+     */
+    public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->only(['username', 'password']);
 
@@ -31,10 +33,10 @@ class AuthController extends Controller
         }
 
         auth()->user()->tokens()->delete();
-        
+
         if (auth()->user()->role->id === Role::SUPER_ADMIN_ID) {
             $token = auth()->user()->createToken(auth()->user()->username . ' secret token', Role::SUPER_ADMIN_PERMISSIONS)->plainTextToken;
-        } else if(auth()->user()->role->id === Role::OPERATOR_ID) {
+        } else if (auth()->user()->role->id === Role::OPERATOR_ID) {
             $token = auth()->user()->createToken(auth()->user()->username . ' secret token', Role::OPERATOR_PERMISSIONS)->plainTextToken;
         } else {
             $token = auth()->user()->createToken(auth()->user()->username . ' secret token', Role::STUDENT_PERMISSIONS)->plainTextToken;
@@ -47,7 +49,7 @@ class AuthController extends Controller
 
     /**
      * Logout method
-     * */ 
+     * */
     public function logout(): JsonResponse
     {
         auth()->user()->tokens()->delete();
@@ -58,7 +60,7 @@ class AuthController extends Controller
     /**
      * Reset Password method
      * @param
-    */
+     */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
         $requests = $request->only(['old_password', 'new_password', 'new_password_confirmation']);
@@ -79,7 +81,7 @@ class AuthController extends Controller
     /**
      * Get authenticated user
      */
-    public function me(): JsonResponse 
+    public function me(): JsonResponse
     {
         return ResponseJSON::successWithData('Profile has been loaded', auth()->user());
     }

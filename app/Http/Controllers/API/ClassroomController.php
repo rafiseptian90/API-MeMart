@@ -59,7 +59,7 @@ class ClassroomController extends Controller
      */
     public function show($id) : JsonResponse
     {
-        $this->authorize('view', Classroom::find($id));
+        $this->authorize('view', Classroom::findOrFail($id));
 
         $classroom = $this->classroomRepo->getClassroom($id);
 
@@ -75,7 +75,7 @@ class ClassroomController extends Controller
      */
     public function update(UpdateClassroomRequest $request, $id) : JsonResponse
     {
-        $this->authorize('update', Classroom::find($id));
+        $this->authorize('update', Classroom::findOrFail($id));
 
         $requests = $request->validated();
 
@@ -92,12 +92,14 @@ class ClassroomController extends Controller
      */
     public function destroy($id) : JsonResponse
     {
-        $this->authorize('delete', Classroom::find($id));
+        $this->authorize('delete', Classroom::findOrFail($id));
 
-        if ($this->classroomRepo->destroyClassroom($id)) {
+        try {
+            $this->classroomRepo->destroyClassroom($id);
+
             return ResponseJSON::success('Classroom has been deleted');
+        } catch (\Exception $ex) {
+            return ResponseJSON::unprocessableEntity($ex->getMessage());
         }
-
-        return ResponseJSON::badRequest('Cannot delete this classroom');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Http\Resources\ClassroomResource;
 use App\Models\Classroom;
 use JsonSerializable;
+use Exception;
 
 interface ClassroomRepository {
     public function getClassrooms () : JsonSerializable ;
@@ -35,7 +36,10 @@ class EloquentClassroomRepository implements ClassroomRepository {
 
     public function getClassroom($classroom_id) : JsonSerializable
     {
-        $classroom = ClassroomResource::make(Classroom::with(['students'])->find($classroom_id));
+        $classroom = ClassroomResource::make(Classroom::with(['students' => function($student) {
+                                        $student->with(['profile']);
+                                    }])
+                                    ->findOrFail($classroom_id));
 
         return $classroom;
     }
@@ -57,7 +61,7 @@ class EloquentClassroomRepository implements ClassroomRepository {
         $classroom = Classroom::findOrFail($classroom_id);
 
         if (!$classroom->students->isEmpty()) {
-            return false;
+            throw new Exception("Cannot delete this classroom because they have a student data");
         }
 
         $classroom->delete();
