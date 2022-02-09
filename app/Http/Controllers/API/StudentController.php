@@ -79,7 +79,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view', Student::find($id));
+        $this->authorize('view', Student::findOrFail($id));
 
         $student = $this->studentRepo->getStudent($id);
 
@@ -95,7 +95,7 @@ class StudentController extends Controller
      */
     public function update(UpdateStudentRequest $request, $id)
     {
-        $this->authorize('update', Student::find($id));
+        $this->authorize('update', Student::findOrFail($id));
 
         $requests = $request->all();
 
@@ -134,7 +134,7 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', Student::find($id));
+        $this->authorize('delete', Student::findOrFail($id));
 
         $this->studentRepo->destroyStudent($id);
         

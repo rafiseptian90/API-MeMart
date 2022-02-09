@@ -1334,6 +1334,331 @@
                     }
                 ]
             }
+        },
+        "/student": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "All Student",
+                "description": "Lists of Student",
+                "operationId": "student.index",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Store a new Student",
+                "description": "Store a new Student",
+                "operationId": "student.store",
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for storing a new Student",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "classroom_id",
+                                    "parent_income_id",
+                                    "parent_completness_id",
+                                    "other_criteria_id",
+                                    "name",
+                                    "card_number",
+                                    "card_type",
+                                    "phone_number",
+                                    "gender"
+                                ],
+                                "properties": {
+                                    "classroom_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "parent_income_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "parent_completness_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "other_criteria_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "enum": ["M", "F"]
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Jln Arief Rahman Hakim No 45"
+                                    },
+                                    "card_type": {
+                                        "type": "string",
+                                        "enum": ["nip", "nisn"]
+                                    },
+                                    "card_number": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 173834764732
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "087847384777"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/student/{studentID}": {
+            "get": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Take one Student",
+                "description": "Take one Student by their ID",
+                "operationId": "student.show",
+                "parameters": [
+                    {
+                        "name": "studentID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of a Student that want to show"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Student ID not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Update a Student",
+                "description": "Update a Student by their ID",
+                "operatorID": "student.update",
+                "parameters": [
+                    {
+                        "name": "studentID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of Student that want be updated"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for storing a new Student",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "classroom_id",
+                                    "parent_income_id",
+                                    "parent_completness_id",
+                                    "other_criteria_id",
+                                    "name",
+                                    "card_number",
+                                    "card_type",
+                                    "phone_number",
+                                    "gender"
+                                ],
+                                "properties": {
+                                    "classroom_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "parent_income_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "parent_completness_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "other_criteria_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "enum": ["M", "F"]
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Jln Arief Rahman Hakim No 45"
+                                    },
+                                    "card_type": {
+                                        "type": "string",
+                                        "enum": ["nip", "nisn"]
+                                    },
+                                    "card_number": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 173834764732
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "087847384777"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Student ID not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Student"
+                ],
+                "summary": "Delete a Student",
+                "description": "Delete a Student by their ID",
+                "operationID": "student.delete",
+                "parameters": [
+                    {
+                        "name": "studentID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of Student that want to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Student ID not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
         }
     },
     "components": {
