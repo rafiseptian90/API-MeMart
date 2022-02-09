@@ -65,7 +65,7 @@ class ProfitController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view', Profit::find($id));
+        $this->authorize('view', Profit::findOrFail($id));
 
         $profit = $this->profitRepo->getProfit($id);
 
@@ -81,7 +81,7 @@ class ProfitController extends Controller
      */
     public function update(UpdateProfitRequest $request, $id)
     {
-        $this->authorize('update', Profit::find($id));
+        $this->authorize('update', Profit::findOrFail($id));
 
         $requests = $request->all();
 
@@ -102,7 +102,7 @@ class ProfitController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', Profit::find($id));
+        $this->authorize('delete', Profit::findOrFail($id));
 
         $this->profitRepo->destroyProfit($id);
 

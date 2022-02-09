@@ -1099,6 +1099,241 @@
                     }
                 ]
             }
+        },
+        "/profit": {
+            "get": {
+                "tags": [
+                    "Profit"
+                ],
+                "summary": "All Profit",
+                "description": "Lists of Profit",
+                "operationId": "profit.index",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Profit"
+                ],
+                "summary": "Store a new Profit",
+                "description": "Store a new Profit",
+                "operationId": "profit.store",
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for storing a new Profit",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "amount",
+                                    "score"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "A new profit"
+                                    },
+                                    "score": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 7
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/profit/{profitID}": {
+            "get": {
+                "tags": [
+                    "Profit"
+                ],
+                "summary": "Take one Profit",
+                "description": "Take one Profit by their ID",
+                "operationId": "profit.show",
+                "parameters": [
+                    {
+                        "name": "profitID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of a Profit that want to show"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Profit ID not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Profit"
+                ],
+                "summary": "Update a Profit",
+                "description": "Update a Profit by their ID",
+                "operatorID": "profit.update",
+                "parameters": [
+                    {
+                        "name": "profitID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of Profit that want be updated"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for updating a Profit",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "amount",
+                                    "score"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "updating a profit"
+                                    },
+                                    "score": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Profit ID not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Profit"
+                ],
+                "summary": "Delete a Profit",
+                "description": "Delete a Profit by their ID",
+                "operationID": "profit.delete",
+                "parameters": [
+                    {
+                        "name": "profitID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of Profit that want to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Profit ID not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
         }
     },
     "components": {

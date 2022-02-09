@@ -23,9 +23,8 @@ class EloquentProfitRepository implements ProfitRepository {
     {
         $profits = ProfitResource::collection(
             Profit::with(['students' => function ($student) {
-                    $student->whereMonth('date', Carbon::now()->month);
+                    $student->with(['profile'])->whereMonth('date', Carbon::now()->month);
                   }])
-                  ->whereHas('students')
                   ->get()
         );
 
@@ -45,7 +44,9 @@ class EloquentProfitRepository implements ProfitRepository {
 
     public function getProfit(int $id): JsonSerializable
     {
-        $profit = ProfitResource::make(Profit::with(['students'])->findOrFail($id));
+        $profit = ProfitResource::make(Profit::with(['students' => function($student){
+                                    $student->with(['profile']);
+                                }])->findOrFail($id));
 
         return $profit;
     }
