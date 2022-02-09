@@ -60,7 +60,7 @@ class ParentCompletnessController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view', ParentCompletness::find($id));
+        $this->authorize('view', ParentCompletness::findOrFail($id));
 
         $parent = $this->parentCompletnessRepo->getParentCompletness($id);
 
@@ -76,7 +76,7 @@ class ParentCompletnessController extends Controller
      */
     public function update(UpdateParentCompletnessRequest $request, $id)
     {
-        $this->authorize('update', ParentCompletness::find($id));
+        $this->authorize('update', ParentCompletness::findOrFail($id));
 
         $requests = $request->validated();
 
@@ -93,14 +93,14 @@ class ParentCompletnessController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', ParentCompletness::find($id));
+        $this->authorize('delete', ParentCompletness::findOrFail($id));
 
-        $res = $this->parentCompletnessRepo->destroyParentCompletness($id);
+        try {
+            $this->parentCompletnessRepo->destroyParentCompletness($id);
 
-        if (!$res) {
-            return ResponseJSON::badRequest('This action cannot be executed for some reason');
-        }
-
-        return ResponseJSON::success('Parent Completness has been deleted');
+            return ResponseJSON::success('Parent Completness has been deleted');
+        } catch (\Exception $ex) {
+            return ResponseJSON::unprocessableEntity($ex->getMessage());
+        }        
     }
 }

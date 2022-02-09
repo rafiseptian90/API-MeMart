@@ -625,6 +625,235 @@
                     }
                 ]
             }
+        },
+        "/parent-completness": {
+            "get": {
+                "tags": [
+                    "Parent Completness"
+                ],
+                "summary": "All Parent Completness",
+                "description": "Lists of Parent Completness",
+                "operationId": "parent-completness.index",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Parent Completness"
+                ],
+                "summary": "Store a new Parent Completness",
+                "description": "Store a new Parent Completness",
+                "operationId": "parent-completness.store",
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for storing a new Parent Completness",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": ["type", "score"],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "A new parent completness"
+                                    },
+                                    "score": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 7
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/parent-completness/{parentCompletnessID}": {
+            "get": {
+                "tags": [
+                    "Parent Completness"
+                ],
+                "summary": "Take one Parent Completness",
+                "description":"Take one Parent Completness by their ID",
+                "operationId": "parent-completness.show",
+                "parameters": [
+                    {
+                        "name": "parentCompletnessID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of a Parent Completness that want to show"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Parent Completness ID not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Parent Completness"
+                ],
+                "summary": "Update a Parent Completness",
+                "description": "Update a Parent Completness by their ID",
+                "operatorID": "parent-completness.update",
+                "parameters": [
+                    {
+                        "name": "parentCompletnessID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of Parent Completness that want be updated"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for updating a Parent Completness",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": ["type", "score"],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "updating parent completness"
+                                    },
+                                    "score": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Parent Completness ID not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Parent Completness"
+                ],
+                "summary": "Delete a Parent Completness",
+                "description": "Delete a Parent Completness by their ID",
+                "operationID": "parent-completness.delete",
+                "parameters": [
+                    {
+                        "name": "parentCompletnessID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of Parent Completness that want to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Parent Completness ID not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
         }
     },
     "components": {

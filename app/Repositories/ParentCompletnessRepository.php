@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Http\Resources\ParentCompletnessResource;
 use App\Models\ParentCompletness;
 use JsonSerializable;
+use Exception;
 
 interface ParentCompletnessRepository {
     public function getParentCompletnesses(): JsonSerializable;
@@ -59,7 +60,7 @@ class EloquentParentCompletnessRepository implements ParentCompletnessRepository
         $parent = ParentCompletness::findOrFail($id);
 
         if (!$parent->students->isEmpty()) {
-            return false;
+            throw new Exception("Cannot delete this parent completness because they have a student data");
         }
 
         $parent->delete();
