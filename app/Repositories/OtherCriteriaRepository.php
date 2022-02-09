@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Http\Resources\OtherCriteriaResource;
 use App\Models\OtherCriteria;
 use JsonSerializable;
+use Exception;
 
 interface OtherCriteriaRepository {
     public function getOtherCriterias () : JsonSerializable;
@@ -61,7 +62,7 @@ class EloquentOtherCriteriaRepository implements OtherCriteriaRepository {
         $criteria = OtherCriteria::findOrFail($id);
 
         if (!$criteria->students->isEmpty()) {
-            return false;
+            throw new Exception("Cannot delete this other criteria because they have student data");
         }
 
         $criteria->delete();

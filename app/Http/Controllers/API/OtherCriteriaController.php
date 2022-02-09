@@ -60,7 +60,7 @@ class OtherCriteriaController extends Controller
      */
     public function show($id)
     {
-        $this->authorize('view', OtherCriteria::find($id));
+        $this->authorize('view', OtherCriteria::findOrFail($id));
 
         $criteria = $this->otherCriteriaRepo->getOtherCriteria($id);
 
@@ -76,7 +76,7 @@ class OtherCriteriaController extends Controller
      */
     public function update(UpdateOtherCriteriaRequest $request, $id)
     {
-        $this->authorize('update', OtherCriteria::find($id));
+        $this->authorize('update', OtherCriteria::findOrFail($id));
 
         $requests = $request->validated();
 
@@ -93,14 +93,14 @@ class OtherCriteriaController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', OtherCriteria::find($id));
+        $this->authorize('delete', OtherCriteria::findOrFail($id));
+        
+        try {
+           $this->otherCriteriaRepo->destroyOtherCriteria($id);
 
-        $res = $this->otherCriteriaRepo->destroyOtherCriteria($id);
-
-        if (!$res) {
-            return ResponseJSON::internalServerError('Internal Server Error');
+            return ResponseJSON::success('Other Criteria has been deleted');
+        } catch (\Exception $ex) {
+            return ResponseJSON::unprocessableEntity($ex->getMessage());
         }
-
-        return ResponseJSON::success('Other Criteria has been deleted');
     }
 }
