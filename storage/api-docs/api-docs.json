@@ -1415,7 +1415,10 @@
                                     },
                                     "gender": {
                                         "type": "string",
-                                        "enum": ["M", "F"]
+                                        "enum": [
+                                            "M",
+                                            "F"
+                                        ]
                                     },
                                     "address": {
                                         "type": "string",
@@ -1424,7 +1427,10 @@
                                     },
                                     "card_type": {
                                         "type": "string",
-                                        "enum": ["nip", "nisn"]
+                                        "enum": [
+                                            "nip",
+                                            "nisn"
+                                        ]
                                     },
                                     "card_number": {
                                         "type": "integer",
@@ -1565,7 +1571,10 @@
                                     },
                                     "gender": {
                                         "type": "string",
-                                        "enum": ["M", "F"]
+                                        "enum": [
+                                            "M",
+                                            "F"
+                                        ]
                                     },
                                     "address": {
                                         "type": "string",
@@ -1574,7 +1583,10 @@
                                     },
                                     "card_type": {
                                         "type": "string",
-                                        "enum": ["nip", "nisn"]
+                                        "enum": [
+                                            "nip",
+                                            "nisn"
+                                        ]
                                     },
                                     "card_number": {
                                         "type": "integer",
@@ -1648,6 +1660,269 @@
                     },
                     "404": {
                         "description": "Student ID not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/profit-student": {
+            "get": {
+                "tags": [
+                    "Profit Student"
+                ],
+                "summary": "All Profit Student",
+                "description": "Lists of Profit Student",
+                "operationId": "profit-student.index",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Profit Student"
+                ],
+                "summary": "Store a new Profit Student",
+                "description": "Store a new Profit Student",
+                "operationId": "profit-student.store",
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for storing a new Profit Student",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "profit_students"
+                                ],
+                                "properties": {
+                                    "profit_students": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "student_id": {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "example": 1
+                                                },
+                                                "profit_id": {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "example": 1
+                                                },
+                                                "amount": {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "example": 35000
+                                                },
+                                                "date": {
+                                                    "type": "string",
+                                                    "format": "string",
+                                                    "example": "2022-02-10"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/profit-student/{studentID}": {
+            "get": {
+                "tags": [
+                    "Profit Student"
+                ],
+                "summary": "Take one Profit Student",
+                "description": "Take one Profit Student by their ID",
+                "operationId": "profit-student.show",
+                "parameters": [
+                    {
+                        "name": "studentID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of a Student that want to show their Profit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Profit Student ID not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Profit Student"
+                ],
+                "summary": "Update a Profit Student",
+                "description": "Update a Profit Student by their ID",
+                "operatorID": "profit-student.update",
+                "parameters": [
+                    {
+                        "name": "studentID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of Profit Student that want be updated"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "description": "Fill some field for updating a Profit Student",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "profit_id",
+                                    "amount",
+                                    "date"
+                                ],
+                                "properties": {
+                                    "profit_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "amount": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 37500
+                                    },
+                                    "date": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "2022-02-10"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Profit Student ID not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Profit Student"
+                ],
+                "summary": "Delete a Profit Student",
+                "description": "Delete a Profit Student by their ID",
+                "operationID": "profit-student.delete",
+                "parameters": [
+                    {
+                        "name": "studentID",
+                        "required": true,
+                        "in": "path",
+                        "description": "The ID of Profit Student that want to delete"
+                    },
+                    {
+                        "name": "date",
+                        "required": true,
+                        "in": "query",
+                        "description": "Date of a Profit Student ID that want to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Profit Student ID not found"
                     },
                     "422": {
                         "description": "Unprocessable Content"

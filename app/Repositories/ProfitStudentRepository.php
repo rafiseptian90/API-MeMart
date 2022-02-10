@@ -65,12 +65,12 @@ class EloquentProfitStudentRepository implements ProfitStudentRepository {
     public function updateProfitStudent(array $requests, int $id): bool
     {
         $profitStudent = DB::table('profit_students')
-          ->whereStudentId($id)
-          ->whereDate('date', $requests['date']);
+                            ->whereStudentId($id)
+                            ->whereDate('date', $requests['date']);
 
-          $profitStudent->update($requests);
+        $profitStudent->update($requests);
 
-          return true;
+        return true;
     }
 
     public function destroyProfitStudent(int $id): bool
