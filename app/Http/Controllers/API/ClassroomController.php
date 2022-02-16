@@ -17,7 +17,7 @@ class ClassroomController extends Controller
     public function __construct(EloquentClassroomRepository $classroomRepo)
     {
         $this->classroomRepo = $classroomRepo;
-        
+
         $this->middleware('auth:sanctum');
     }
     /**
