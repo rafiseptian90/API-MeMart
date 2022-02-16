@@ -20,7 +20,7 @@ afterEach(function(){
 });
 
 it ('can fetch all student by classroom', function(){
-    $this->getJson('api/v1/student', 
+    $this->getJson('api/v1/student',
             // Request Header
             ['Authorization' => 'Bearer ' . $this->superAdminUserToken]
          )
@@ -33,7 +33,7 @@ it ('can fetch all student by classroom', function(){
 });
 
 it ('cannot fetch all student by classroom cause they dont have that permission', function(){
-    $this->getJson('api/v1/student', 
+    $this->getJson('api/v1/student',
             // Request Header
             ['Authorization' => 'Bearer ' . $this->studentUserToken]
          )
@@ -62,9 +62,9 @@ it('can bulk create student profit', function(){
         ]
     ];
 
-    $this->postJson('api/v1/profit-student', 
+    $this->postJson('api/v1/profit-student',
             // Request Body
-            ['profit_students' => json_encode($requests)],
+            ['profit_students' => $requests],
             // Request Header
             ['Authorization' => 'Bearer ' . $this->superAdminUserToken]
          )
@@ -97,9 +97,9 @@ it('cannot create a student profit cause they dont have that permission', functi
         ]
     ];
 
-    $this->postJson('api/v1/profit-student', 
+    $this->postJson('api/v1/profit-student',
             // Request Body
-            ['profit_students' => json_encode($requests)],
+            ['profit_students' => $requests],
             // Request Header
             ['Authorization' => 'Bearer ' . $this->studentUserToken]
          )
@@ -107,7 +107,7 @@ it('cannot create a student profit cause they dont have that permission', functi
 });
 
 it('cannot create a student profit cause the request body is empty', function(){
-    $this->postJson('api/v1/profit-student', 
+    $this->postJson('api/v1/profit-student',
             // Request Body
             [],
             // Request Header
@@ -117,7 +117,7 @@ it('cannot create a student profit cause the request body is empty', function(){
 });
 
 it ('can show a profit student', function(){
-    $this->getJson('api/v1/profit-student/1', 
+    $this->getJson('api/v1/profit-student/1',
             // Request Header
             ['Authorization' => 'Bearer ' . $this->superAdminUserToken]
          )
@@ -133,7 +133,7 @@ it ('can update a profit student', function(){
         'amount' => 40000
     ];
 
-    $this->putJson('api/v1/profit-student/1', 
+    $this->putJson('api/v1/profit-student/1',
             // Request Body
             $request,
             // Request Header
@@ -144,7 +144,7 @@ it ('can update a profit student', function(){
              'code_status' => 200,
              'msg_status' => 'Profit Student has been updated'
          ]);
-    
+
 });
 
 it ('cannot update a profit student cause they dont have that permission', function(){
@@ -155,7 +155,7 @@ it ('cannot update a profit student cause they dont have that permission', funct
         'amount' => 40000
     ];
 
-    $this->putJson('api/v1/profit-student/1', 
+    $this->putJson('api/v1/profit-student/1',
             // Request Body
             $request,
             // Request Header
@@ -165,7 +165,7 @@ it ('cannot update a profit student cause they dont have that permission', funct
 });
 
 it ('cannot update a profit student cause the request body is empty', function(){
-    $this->putJson('api/v1/profit-student/1', 
+    $this->putJson('api/v1/profit-student/1',
             // Request Body
             [],
             // Request Header
@@ -175,7 +175,7 @@ it ('cannot update a profit student cause the request body is empty', function()
 });
 
 it ('can delete a profit student', function(){
-    $this->deleteJson('api/v1/profit-student/1?date=' . Carbon::now()->format('Y-m-d'), 
+    $this->deleteJson('api/v1/profit-student/1?date=' . Carbon::now()->format('Y-m-d'),
             // Request Body
             [],
             // Request Header
@@ -189,7 +189,7 @@ it ('can delete a profit student', function(){
 });
 
 it ('cannot delete a profit student cause they dont have that permission', function(){
-    $this->deleteJson('api/v1/profit-student/1?date=' . Carbon::now()->format('Y-m-d'), 
+    $this->deleteJson('api/v1/profit-student/1?date=' . Carbon::now()->format('Y-m-d'),
             // Request Body
             [],
             // Request Header

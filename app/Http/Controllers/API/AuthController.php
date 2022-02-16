@@ -7,7 +7,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Role;
-use App\Traits\AuthAPIDocs;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +20,7 @@ class AuthController extends Controller
 
     /**
      * Login Method
-     * @param \App\Http\Requests\Auth\LoginRequest $request
+     * @param LoginRequest $request
      * @return JsonResponse
      */
     public function login(LoginRequest $request): JsonResponse
@@ -42,7 +41,7 @@ class AuthController extends Controller
             $token = auth()->user()->createToken(auth()->user()->username . ' secret token', Role::STUDENT_PERMISSIONS)->plainTextToken;
         }
 
-        return ResponseJSON::successWithData('Login Successful', collect([
+        return ResponseJSON::successWithData('Login Successful', (array) collect([
             'token' => $token
         ]));
     }
@@ -59,7 +58,8 @@ class AuthController extends Controller
 
     /**
      * Reset Password method
-     * @param
+     * @param ResetPasswordRequest $request
+     * @return JsonResponse
      */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
@@ -83,6 +83,6 @@ class AuthController extends Controller
      */
     public function me(): JsonResponse
     {
-        return ResponseJSON::successWithData('Profile has been loaded', auth()->user());
+        return ResponseJSON::successWithData('Profile has been loaded', (array) auth()->user());
     }
 }

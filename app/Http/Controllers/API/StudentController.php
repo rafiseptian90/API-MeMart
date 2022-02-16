@@ -8,6 +8,9 @@ use App\Http\Requests\Student\UpdateStudentRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Student;
 use App\Repositories\EloquentStudentRepository;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 
 class StudentController extends Controller
@@ -20,27 +23,30 @@ class StudentController extends Controller
 
         $this->middleware('auth:sanctum');
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $this->authorize('viewAny', Student::class);
 
         $students = $this->studentRepo->getStudents();
 
-        return ResponseJSON::successWithData('Students has been loaded', $students);
+        return ResponseJSON::successWithData('Students has been loaded', (array) $students);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\Student\StoreStudentRequest $request
-     * @return \Illuminate\Http\Response
+     * @param StoreStudentRequest $request
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function store(StoreStudentRequest $request)
+    public function store(StoreStudentRequest $request): JsonResponse
     {
         $this->authorize('create', Student::class);
 
@@ -74,26 +80,28 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
         $this->authorize('view', Student::findOrFail($id));
 
         $student = $this->studentRepo->getStudent($id);
 
-        return ResponseJSON::successWithData('Student has been loaded', $student);
+        return ResponseJSON::successWithData('Student has been loaded', (array) $student);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\Student\UpdateStudentRequest $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateStudentRequest $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function update(UpdateStudentRequest $request, $id)
+    public function update(UpdateStudentRequest $request, $id): JsonResponse
     {
         $this->authorize('update', Student::findOrFail($id));
 
@@ -129,15 +137,16 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $this->authorize('delete', Student::findOrFail($id));
 
         $this->studentRepo->destroyStudent($id);
-        
+
         return ResponseJSON::success('Student has been deleted');
     }
 }
