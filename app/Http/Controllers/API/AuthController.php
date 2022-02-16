@@ -41,7 +41,7 @@ class AuthController extends Controller
             $token = auth()->user()->createToken(auth()->user()->username . ' secret token', Role::STUDENT_PERMISSIONS)->plainTextToken;
         }
 
-        return ResponseJSON::successWithData('Login Successful', (array) collect([
+        return ResponseJSON::successWithData('Login Successful', collect([
             'token' => $token
         ]));
     }

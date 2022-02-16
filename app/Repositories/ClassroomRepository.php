@@ -19,7 +19,6 @@ class EloquentClassroomRepository implements ClassroomRepository {
     public function getClassrooms() : JsonSerializable
     {
         $classrooms = ClassroomResource::collection(Classroom::latest()->get());
-
         return $classrooms;
     }
 
