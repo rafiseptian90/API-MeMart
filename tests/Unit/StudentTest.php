@@ -20,7 +20,7 @@ afterEach(function(){
 });
 
 it('can fetch all student', function(){
-    $this->getJson('api/v1/student', 
+    $this->getJson('api/v1/student',
             // Request Header
             ['Authorization' => 'Bearer ' . $this->superAdminUserToken]
          )
@@ -33,7 +33,7 @@ it('can fetch all student', function(){
 });
 
 it('cannot fetch all student cause they dont have that permission', function(){
-    $this->getJson('api/v1/student', 
+    $this->getJson('api/v1/student',
             // Request Header
             ['Authorization' => 'Bearer ' . $this->studentUserToken]
          )
@@ -43,7 +43,7 @@ it('cannot fetch all student cause they dont have that permission', function(){
 it('can fetch a student', function(){
     $student = Student::factory()->create();
 
-    $this->getJson('api/v1/student/' . $student->id, 
+    $this->getJson('api/v1/student/' . $student->id,
             // Request Header
             ['Authorization' => 'Bearer ' . $this->superAdminUserToken]
          )
@@ -58,7 +58,7 @@ it('can fetch a student', function(){
 it('cannot fetch a student cause they dont have that permission', function(){
     $student = Student::factory()->create();
 
-    $this->getJson('api/v1/student/' . $student->id, 
+    $this->getJson('api/v1/student/' . $student->id,
             // Request Body
             ['Authorization' => 'Bearer ' . $this->studentUserToken]
          )
@@ -79,7 +79,7 @@ it('can create a new student', function(){
         'address' => 'Jln. Blablabla'
     ];
 
-    $this->postJson('api/v1/student', 
+    $this->postJson('api/v1/student',
             // Request Body
             $requests,
             // Request Header
@@ -106,7 +106,7 @@ it('cannot create a new student cause they dont have that permission', function(
         'address' => 'Jln. Blablabla'
     ];
 
-    $this->postJson('api/v1/student', 
+    $this->postJson('api/v1/student',
             // Request Body
             $requests,
             // Request Header
@@ -128,7 +128,7 @@ it('cannot create a new student cause there an issue in request body', function(
         'address' => 'Jln. Blablabla'
     ];
 
-    $this->postJson('api/v1/student', 
+    $this->postJson('api/v1/student',
             // Request Body
             $requests,
             // Request Header
@@ -153,7 +153,7 @@ it('can update a student', function(){
 
     $student = Student::factory()->create();
 
-    $this->putJson('api/v1/student/' . $student->id, 
+    $this->putJson('api/v1/student/' . $student->id,
             // Request Body
             $requests,
             // Request Header
@@ -182,7 +182,7 @@ it('cannot update a student cause they dont have that permission', function(){
 
     $student = Student::factory()->create();
 
-    $this->putJson('api/v1/student/' . $student->id, 
+    $this->putJson('api/v1/student/' . $student->id,
             // Request Body
             $requests,
             // Request Header
@@ -206,7 +206,7 @@ it('cannot update a student cause there an issue in request body', function(){
 
     $student = Student::factory()->create();
 
-    $this->putJson('api/v1/student/' . $student->id, 
+    $this->putJson('api/v1/student/' . $student->id,
             // Request Body
             $requests,
             // Request Header
@@ -218,7 +218,7 @@ it('cannot update a student cause there an issue in request body', function(){
 it('can delete a student', function(){
     $student = Student::factory()->create();
 
-    $this->deleteJson('api/v1/student/' . $student->id, 
+    $this->deleteJson('api/v1/student/' . $student->id,
             // Request Body
             [],
             // Request Header
@@ -231,10 +231,10 @@ it('can delete a student', function(){
          ]);
 });
 
-it('cannot delete a student caue they dont have that permission', function(){
+it('cannot delete a student cause they dont have that permission', function(){
     $student = Student::factory()->create();
 
-    $this->deleteJson('api/v1/student/' . $student->id, 
+    $this->deleteJson('api/v1/student/' . $student->id,
             // Request Body
             [],
             // Request Header

@@ -7,46 +7,46 @@ use App\Http\Requests\ClassroomRequest\StoreClassroomRequest;
 use App\Http\Requests\ClassroomRequest\UpdateClassroomRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Classroom;
-use App\Repositories\EloquentClassroomRepository;
+use App\Services\ClassroomService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
 class ClassroomController extends Controller
 {
-    protected $classroomRepo;
+    private $classroomService;
 
-    public function __construct(EloquentClassroomRepository $classroomRepo)
+    public function __construct(ClassroomService $classroomService)
     {
-        $this->classroomRepo = $classroomRepo;
-        
+        $this->classroomService = $classroomService;
+
         $this->middleware('auth:sanctum');
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function index() : JsonResponse
     {
         $this->authorize('viewAny', Classroom::class);
 
-        $clasrooms = $this->classroomRepo->getClassrooms();
-
-        return ResponseJSON::successWithData('Classrooms has been loaded', $clasrooms);
+        return ResponseJSON::successWithData('Classrooms has been loaded', $this->classroomService->getClassrooms());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\ClassroomRequest\StoreClassroomRequest $request
-     * @return \Illuminate\Http\Response
+     * @param StoreClassroomRequest $request
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function store(StoreClassroomRequest $request) : JsonResponse
     {
         $this->authorize('create', Classroom::class);
 
-        $requests = $request->validated();
-
-        $this->classroomRepo->storeClassroom($requests);
+        $this->classroomService->storeClassroom($request->validated());
 
         return ResponseJSON::success('Classroom has been added');
     }
@@ -54,32 +54,30 @@ class ClassroomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function show($id) : JsonResponse
+    public function show(int $id) : JsonResponse
     {
         $this->authorize('view', Classroom::findOrFail($id));
 
-        $classroom = $this->classroomRepo->getClassroom($id);
-
-        return ResponseJSON::successWithData('Classroom has been loaded', $classroom);
+        return ResponseJSON::successWithData('Classroom has been loaded', $this->classroomService->getClassroom($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\ClassroomRequest\UpdateClassroomRequest $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateClassroomRequest $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function update(UpdateClassroomRequest $request, $id) : JsonResponse
+    public function update(UpdateClassroomRequest $request, int $id) : JsonResponse
     {
         $this->authorize('update', Classroom::findOrFail($id));
 
-        $requests = $request->validated();
-
-        $this->classroomRepo->updateClassroom($requests, $id);
+        $this->classroomService->updateClassroom($request->validated(), $id);
 
         return ResponseJSON::success('Classroom has been updated');
     }
@@ -87,16 +85,16 @@ class ClassroomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function destroy($id) : JsonResponse
+    public function destroy(int $id) : JsonResponse
     {
         $this->authorize('delete', Classroom::findOrFail($id));
 
         try {
-            $this->classroomRepo->destroyClassroom($id);
-
+            $this->classroomService->destroyClassroom($id);
             return ResponseJSON::success('Classroom has been deleted');
         } catch (\Exception $ex) {
             return ResponseJSON::unprocessableEntity($ex->getMessage());

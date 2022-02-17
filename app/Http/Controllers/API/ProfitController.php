@@ -7,17 +7,17 @@ use App\Http\Requests\Profit\StoreProfitRequest;
 use App\Http\Requests\Profit\UpdateProfitRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Profit;
-use App\Repositories\EloquentProfitRepository;
+use App\Services\ProfitService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProfitController extends Controller
 {
-    protected $profitRepo;
+    private $profitService;
 
-    public function __construct(EloquentProfitRepository $profitRepo)
+    public function __construct(ProfitService $profitService)
     {
-        $this->profitRepo = $profitRepo;
+        $this->profitService = $profitService;
 
         $this->middleware('auth:sanctum');
     }
@@ -25,86 +25,75 @@ class ProfitController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function index(): JsonResponse
     {
         $this->authorize('viewAny', Profit::class);
 
-        $profits = $this->profitRepo->getProfits();
-
-        return ResponseJSON::successWithData('Profits has been loaded', $profits);
+        return ResponseJSON::successWithData('Profits has been loaded', $this->profitService->getProfits());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\Profit\StoreProfitRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreProfitRequest $request
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function store(StoreProfitRequest $request): JsonResponse
     {
         $this->authorize('create', Profit::class);
 
-        $requests = $request->all();
+        $this->profitService->storeProfit($request->validated());
 
-        try {
-            $this->profitRepo->storeProfit($requests);
-
-            return ResponseJSON::success('New Profit has been added');
-        } catch (\Exception $e) {
-            return ResponseJSON::internalServerError($e);
-        }
+        return ResponseJSON::success('New Profit has been added');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
         $this->authorize('view', Profit::findOrFail($id));
 
-        $profit = $this->profitRepo->getProfit($id);
-
-        return ResponseJSON::successWithData('Profit has been loaded', $profit);
+        return ResponseJSON::successWithData('Profit has been loaded', $this->profitService->getProfit($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\Profit\UpdateProfitRequest $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateProfitRequest $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function update(UpdateProfitRequest $request, $id)
+    public function update(UpdateProfitRequest $request, int $id): JsonResponse
     {
         $this->authorize('update', Profit::findOrFail($id));
 
-        $requests = $request->all();
+        $this->profitService->updateProfit($request->validated(), $id);
 
-        try {
-            $this->profitRepo->updateProfit($requests, $id);
-
-            return ResponseJSON::success('Profit has been updated');
-        } catch (\Exception $e) {
-            return ResponseJSON::internalServerError($e);
-        }
+        return ResponseJSON::success('Profit has been updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
         $this->authorize('delete', Profit::findOrFail($id));
 
-        $this->profitRepo->destroyProfit($id);
+        $this->profitService->destroyProfit($id);
 
         return ResponseJSON::success('Profit has been deleted');
     }
