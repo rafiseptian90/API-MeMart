@@ -17,7 +17,7 @@ class ClassroomController extends Controller
 
     public function __construct(ClassroomService $classroomService)
     {
-        $this->classroomService = $classroomService;
+        $this->classroomService = $classroomService
 
         $this->middleware('auth:sanctum');
     }
