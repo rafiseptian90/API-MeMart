@@ -7,16 +7,17 @@ use App\Http\Requests\ParentCompletness\StoreParentCompletnessRequest;
 use App\Http\Requests\ParentCompletness\UpdateParentCompletnessRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\ParentCompletness;
-use App\Repositories\EloquentParentCompletnessRepository;
+use App\Services\ParentCompletesService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
 class ParentCompletnessController extends Controller
 {
-    protected $parentCompletnessRepo;
+    private $parentCompletesService;
 
-    public function __construct(EloquentParentCompletnessRepository $parentCompletnessRepo)
+    public function __construct(ParentCompletesService $parentCompletesService)
     {
-        $this->parentCompletnessRepo = $parentCompletnessRepo;
+        $this->parentCompletesService = $parentCompletesService;
 
         $this->middleware('auth:sanctum');
     }
@@ -24,30 +25,28 @@ class ParentCompletnessController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function index(): JsonResponse
     {
         $this->authorize('viewAny', ParentCompletness::class);
 
-        $parents = $this->parentCompletnessRepo->getParentCompletnesses();
-
-        return ResponseJSON::successWithData('Parent Completnesses has been loaded', $parents);
+        return ResponseJSON::successWithData('Parent Completnesses has been loaded', $this->parentCompletesService->getParentCompletnesses());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\ParentCompletness\StoreParentCompletnessRequest $request
-     * @return \Illuminate\Http\Response
+     * @param StoreParentCompletnessRequest $request
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function store(StoreParentCompletnessRequest $request): JsonResponse
     {
         $this->authorize('create', ParentCompletness::class);
 
-        $requests = $request->validated();
-
-        $this->parentCompletnessRepo->storeParentCompletness($requests);
+        $this->parentCompletesService->storeParentCompletness($request->validated());
 
         return ResponseJSON::success('New Parent Completness has been added');
     }
@@ -55,32 +54,30 @@ class ParentCompletnessController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
         $this->authorize('view', ParentCompletness::findOrFail($id));
 
-        $parent = $this->parentCompletnessRepo->getParentCompletness($id);
-
-        return ResponseJSON::successWithData('Parent Completness has been loaded', $parent);
+        return ResponseJSON::successWithData('Parent Completness has been loaded', $this->parentCompletesService->getParentCompletness($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\ParentCompletness\UpdateParentCompletnessRequest $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateParentCompletnessRequest $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function update(UpdateParentCompletnessRequest $request, $id)
+    public function update(UpdateParentCompletnessRequest $request, int $id): JsonResponse
     {
         $this->authorize('update', ParentCompletness::findOrFail($id));
 
-        $requests = $request->validated();
-
-        $this->parentCompletnessRepo->updateParentCompletness($requests, $id);
+        $this->parentCompletesService->updateParentCompletness($request->validated(), $id);
 
         return ResponseJSON::success('Parent Completness has been updated');
     }
@@ -88,19 +85,19 @@ class ParentCompletnessController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
         $this->authorize('delete', ParentCompletness::findOrFail($id));
 
         try {
-            $this->parentCompletnessRepo->destroyParentCompletness($id);
-
+            $this->parentCompletesService->destroyParentCompletness($id);
             return ResponseJSON::success('Parent Completness has been deleted');
         } catch (\Exception $ex) {
             return ResponseJSON::unprocessableEntity($ex->getMessage());
-        }        
+        }
     }
 }

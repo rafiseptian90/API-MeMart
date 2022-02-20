@@ -16,7 +16,7 @@ class ResponseJSON {
             'msg_status' => $msg,
         ], Response::HTTP_OK);
     }
-    
+
     /**
      * 200 OK Response with data
      * @param string $msg

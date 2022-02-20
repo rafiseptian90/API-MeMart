@@ -7,49 +7,46 @@ use App\Http\Requests\ParentIncome\StoreParentIncomeRequest;
 use App\Http\Requests\ParentIncome\UpdateParentIncomeRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\ParentIncome;
-use App\Repositories\EloquentParentIncomeRepository;
+use App\Services\ParentIncomeService;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 
 class ParentIncomeController extends Controller
 {
-    protected $parentIncomeRepo;
+    private $parentIncomeService;
 
-    public function __construct(EloquentParentIncomeRepository $parentIncomeRepo)
+    public function __construct(ParentIncomeService $parentIncomeService)
     {
-        $this->parentIncomeRepo = $parentIncomeRepo;
+        $this->parentIncomeService = $parentIncomeService;
 
         $this->middleware('auth:sanctum');
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $this->authorize('viewAny', ParentIncome::class);
 
-        $incomes = $this->parentIncomeRepo->getParentIncomes();
-
-        return ResponseJSON::successWithData('Parent Incomes has been loaded', $incomes);
+        return ResponseJSON::successWithData('Parent Incomes has been loaded', $this->parentIncomeService->getParentIncomes());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\ParentIncome\StoreParentIncomeRequest $request
-     * @return \Illuminate\Http\Response
+     * @param StoreParentIncomeRequest $request
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function store(StoreParentIncomeRequest $request)
+    public function store(StoreParentIncomeRequest $request): JsonResponse
     {
         $this->authorize('create', ParentIncome::class);
 
-        $requests = $request->validated();
-
-        $res = $this->parentIncomeRepo->storeParentIncome($requests);
-
-        if (!$res) {
-            return ResponseJSON::internalServerError('Internal Server Error');
-        }
+        $this->parentIncomeService->storeParentIncome($request->validated());
 
         return ResponseJSON::success('New Parent Income has been added');
     }
@@ -57,36 +54,30 @@ class ParentIncomeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
         $this->authorize('view', ParentIncome::findOrFail($id));
 
-        $income = $this->parentIncomeRepo->getParentIncome($id);
-
-        return ResponseJSON::successWithData('Parent Income has been loaded', $income);
+        return ResponseJSON::successWithData('Parent Income has been loaded', $this->parentIncomeService->getParentIncome($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\ParentIncome\UpdateParentIncomeRequest $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateParentIncomeRequest $request
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function update(UpdateParentIncomeRequest $request, $id)
+    public function update(UpdateParentIncomeRequest $request, int $id): JsonResponse
     {
         $this->authorize('update', ParentIncome::findOrFail($id));
 
-        $requests = $request->validated();
-
-        $res = $this->parentIncomeRepo->updateParentIncome($requests, $id);
-
-        if (!$res) {
-            return ResponseJSON::internalServerError('Internal Server Error');
-        }
+        $this->parentIncomeService->updateParentIncome($request->validated(), $id);
 
         return ResponseJSON::success('Parent Income has been updated');
     }
@@ -94,15 +85,16 @@ class ParentIncomeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
         $this->authorize('delete', ParentIncome::findOrFail($id));
 
         try {
-            $this->parentIncomeRepo->destroyParentIncome($id);
+            $this->parentIncomeService->destroyParentIncome($id);
             return ResponseJSON::success('Parent Income has been deleted');
         } catch (\Exception $ex) {
             return ResponseJSON::unprocessableEntity($ex->getMessage());

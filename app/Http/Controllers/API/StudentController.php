@@ -7,19 +7,18 @@ use App\Http\Requests\Student\StoreStudentRequest;
 use App\Http\Requests\Student\UpdateStudentRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Student;
-use App\Repositories\EloquentStudentRepository;
+use App\Services\StudentService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 
 class StudentController extends Controller
 {
-    protected $studentRepo;
+    private $studentService;
 
-    public function __construct(EloquentStudentRepository $studentRepo)
+    public function __construct(StudentService $studentService)
     {
-        $this->studentRepo = $studentRepo;
+        $this->studentService = $studentService;
 
         $this->middleware('auth:sanctum');
     }
@@ -34,9 +33,7 @@ class StudentController extends Controller
     {
         $this->authorize('viewAny', Student::class);
 
-        $students = $this->studentRepo->getStudents();
-
-        return ResponseJSON::successWithData('Students has been loaded', (array) $students);
+        return ResponseJSON::successWithData('Students has been loaded', $this->studentService->getStudents());
     }
 
     /**
@@ -72,7 +69,7 @@ class StudentController extends Controller
             'userRequests' => $userRequests
         ];
 
-        $this->studentRepo->storeStudent($requests);
+        $this->studentService->storeStudent($requests);
 
         return ResponseJSON::success('New Student has been added');
     }
@@ -88,9 +85,7 @@ class StudentController extends Controller
     {
         $this->authorize('view', Student::findOrFail($id));
 
-        $student = $this->studentRepo->getStudent($id);
-
-        return ResponseJSON::successWithData('Student has been loaded', (array) $student);
+        return ResponseJSON::successWithData('Student has been loaded', $this->studentService->getStudent($id));
     }
 
     /**
@@ -126,8 +121,7 @@ class StudentController extends Controller
         ];
 
         try {
-            $this->studentRepo->updateStudent($requests, $id);
-
+            $this->studentService->updateStudent($requests, $id);
             return ResponseJSON::success('Student has been updated');
         } catch (\Exception $e) {
             return ResponseJSON::internalServerError($e);
@@ -141,11 +135,11 @@ class StudentController extends Controller
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function destroy($id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $this->authorize('delete', Student::findOrFail($id));
 
-        $this->studentRepo->destroyStudent($id);
+        $this->studentService->destroyStudent($id);
 
         return ResponseJSON::success('Student has been deleted');
     }
