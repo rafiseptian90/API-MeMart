@@ -15,7 +15,8 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            //
+            'username' => $this->username,
+            'profile' => ProfileResource::make($this->whenLoaded('profile'))
         ];
     }
 }

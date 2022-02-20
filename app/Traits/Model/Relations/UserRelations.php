@@ -9,7 +9,7 @@ trait UserRelations
 {
     // Has One to Profile
     public function profile () {
-        return $this->hasOne(Profile::class, 'profile_id');
+        return $this->hasOne(Profile::class, 'user_id');
     }
 
     // Belongs to Role

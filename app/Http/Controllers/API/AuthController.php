@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Http\Resources\UserResource;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -42,6 +44,7 @@ class AuthController extends Controller
         }
 
         return ResponseJSON::successWithData('Login Successful', collect([
+            'userData' => UserResource::make(User::with(['profile'])->findOrFail(auth()->user()->id)),
             'token' => $token
         ]));
     }
