@@ -27,7 +27,7 @@ class UpdateOtherCriteriaRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                Rule::unique('other_criterias')->ignore($this->route('other_criteria'))->whereNull('deleted_at')
+                Rule::unique('other_criterias')->ignore($this->route('other_criterion'))->whereNull('deleted_at')
             ],
             'score' => 'required|integer|min:0|max:10'
         ];
