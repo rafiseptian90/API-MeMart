@@ -4,20 +4,18 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Libs\Response\ResponseJSON;
-use App\Repositories\EloquentProfitStudentRepository;
-use App\Services\ProfitStudentService;
-use Illuminate\Auth\Access\Response;
+use App\Repositories\ProfitStudentRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class ProfitStudentController extends Controller
 {
-    private $profitStudentService;
+    private $profitStudentRepo;
 
-    public function __construct(ProfitStudentService $profitStudentService)
+    public function __construct(ProfitStudentRepository $profitStudentRepo)
     {
-        $this->profitStudentService = $profitStudentService;
+        $this->profitStudentRepo = $profitStudentRepo;
 
         $this->middleware('auth:sanctum');
     }
@@ -33,7 +31,7 @@ class ProfitStudentController extends Controller
             return ResponseJSON::forbidden('Access Forbidden');
         }
 
-        return ResponseJSON::successWithData('Profit Students has been loaded', $this->profitStudentService->getProfitStudents());
+        return ResponseJSON::successWithData('Profit Students has been loaded', $this->profitStudentRepo->getProfitStudents());
     }
 
     /**
@@ -55,7 +53,7 @@ class ProfitStudentController extends Controller
 
         $requests = json_decode(json_encode($request->profit_students));
 
-        $this->profitStudentService->storeProfitStudent($requests);
+        $this->profitStudentRepo->storeProfitStudent($requests);
 
         return ResponseJSON::success('Profit Students has been stored');
     }
@@ -72,7 +70,7 @@ class ProfitStudentController extends Controller
             return ResponseJSON::forbidden('Access Forbidden');
         }
 
-        return ResponseJSON::successWithData('Student Profit has been loaded', $this->profitStudentService->getProfitStudent($id));
+        return ResponseJSON::successWithData('Student Profit has been loaded', $this->profitStudentRepo->getProfitStudent($id));
     }
 
     /**
@@ -95,7 +93,7 @@ class ProfitStudentController extends Controller
             return ResponseJSON::forbidden('Action Denied');
         }
 
-        $this->profitStudentService->updateProfitStudent($request->only(['profit_id', 'date', 'amount']), $id);
+        $this->profitStudentRepo->updateProfitStudent($request->only(['profit_id', 'date', 'amount']), $id);
 
         return ResponseJSON::success('Profit Student has been updated');
     }
@@ -112,7 +110,7 @@ class ProfitStudentController extends Controller
             return ResponseJSON::forbidden('Action Denied');
         }
 
-        $this->profitStudentService->destroyProfitStudent($id);
+        $this->profitStudentRepo->destroyProfitStudent($id);
 
         return ResponseJSON::success('Profit Student has been deleted');
     }

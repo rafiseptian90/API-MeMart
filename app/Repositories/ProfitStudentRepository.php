@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Http\Resources\ProfitStudentResource;
 use App\Models\Student;
@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use JsonSerializable;
 
-class ProfitStudentService {
+class ProfitStudentRepository {
     /**
      * @return JsonSerializable
      */

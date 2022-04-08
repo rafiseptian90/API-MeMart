@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Http\Resources\ParentIncomeResource;
 use App\Models\ParentIncome;
 use JsonSerializable;
 use Exception;
 
-class ParentIncomeService {
+class ParentIncomeRepository {
     /**
      * @return JsonSerializable
      */

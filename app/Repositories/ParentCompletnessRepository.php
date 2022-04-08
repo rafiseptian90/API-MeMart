@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Http\Resources\ParentCompletnessResource;
 use App\Models\ParentCompletness;
 use JsonSerializable;
 use Exception;
 
-class ParentCompletesService {
+class ParentCompletnessRepository {
     /**
      * @return JsonSerializable
      */

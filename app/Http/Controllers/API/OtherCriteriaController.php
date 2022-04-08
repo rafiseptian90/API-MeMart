@@ -7,17 +7,17 @@ use App\Http\Requests\OtherCriteria\StoreOtherCriteriaRequest;
 use App\Http\Requests\OtherCriteria\UpdateOtherCriteriaRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\OtherCriteria;
-use App\Services\OtherCriteriaService;
+use App\Repositories\OtherCriteriaRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
 class OtherCriteriaController extends Controller
 {
-    private $otherCriteriaService;
+    private $otherCriteriaRepo;
 
-    public function __construct(OtherCriteriaService $otherCriteriaService)
+    public function __construct(OtherCriteriaRepository $otherCriteriaRepo)
     {
-        $this->otherCriteriaService = $otherCriteriaService;
+        $this->otherCriteriaRepo = $otherCriteriaRepo;
 
         $this->middleware('auth:sanctum');
     }
@@ -32,7 +32,7 @@ class OtherCriteriaController extends Controller
     {
         $this->authorize('viewAny', OtherCriteria::class);
 
-        return ResponseJSON::successWithData('Other Criterias has been loaded', $this->otherCriteriaService->getOtherCriterias());
+        return ResponseJSON::successWithData('Other Criterias has been loaded', $this->otherCriteriaRepo->getOtherCriterias());
     }
 
     /**
@@ -46,7 +46,7 @@ class OtherCriteriaController extends Controller
     {
         $this->authorize('create', OtherCriteria::class);
 
-        $this->otherCriteriaService->storeOtherCriteria($request->validated());
+        $this->otherCriteriaRepo->storeOtherCriteria($request->validated());
 
         return ResponseJSON::success('New Other Criteria has been added');
     }
@@ -62,7 +62,7 @@ class OtherCriteriaController extends Controller
     {
         $this->authorize('view', OtherCriteria::findOrFail($id));
 
-        return ResponseJSON::successWithData('Other Criteria has been loaded', $this->otherCriteriaService->getOtherCriteria($id));
+        return ResponseJSON::successWithData('Other Criteria has been loaded', $this->otherCriteriaRepo->getOtherCriteria($id));
     }
 
     /**
@@ -77,7 +77,7 @@ class OtherCriteriaController extends Controller
     {
         $this->authorize('update', OtherCriteria::findOrFail($id));
 
-        $this->otherCriteriaService->updateOtherCriteria($request->validated(), $id);
+        $this->otherCriteriaRepo->updateOtherCriteria($request->validated(), $id);
 
         return ResponseJSON::success('Other Criteria has been updated');
     }
@@ -94,7 +94,7 @@ class OtherCriteriaController extends Controller
         $this->authorize('delete', OtherCriteria::findOrFail($id));
 
         try {
-           $this->otherCriteriaService->destroyOtherCriteria($id);
+           $this->otherCriteriaRepo->destroyOtherCriteria($id);
             return ResponseJSON::success('Other Criteria has been deleted');
         } catch (\Exception $ex) {
             return ResponseJSON::unprocessableEntity($ex->getMessage());

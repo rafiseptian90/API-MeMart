@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Http\Resources\OtherCriteriaResource;
 use App\Models\OtherCriteria;
 use JsonSerializable;
 use Exception;
 
-class OtherCriteriaService {
+class OtherCriteriaRepository {
     /**
      * @return JsonSerializable
      */
