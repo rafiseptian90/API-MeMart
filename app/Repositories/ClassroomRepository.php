@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Http\Resources\ClassroomResource;
 use App\Models\Classroom;
 use Exception;
 use JsonSerializable;
 
-class ClassroomService {
+class ClassroomRepository {
     /**
      * @return JsonSerializable
      */

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Http\Resources\ProfitResource;
 use App\Models\Profit;
 use Carbon\Carbon;
 use JsonSerializable;
 
-class ProfitService {
+class ProfitRepository {
     /**
      * @return JsonSerializable
      */

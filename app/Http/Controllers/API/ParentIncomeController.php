@@ -7,17 +7,17 @@ use App\Http\Requests\ParentIncome\StoreParentIncomeRequest;
 use App\Http\Requests\ParentIncome\UpdateParentIncomeRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\ParentIncome;
-use App\Services\ParentIncomeService;
+use App\Repositories\ParentIncomeRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
 class ParentIncomeController extends Controller
 {
-    private $parentIncomeService;
+    private $parentIncomeRepo;
 
-    public function __construct(ParentIncomeService $parentIncomeService)
+    public function __construct(ParentIncomeRepository $parentIncomeRepo)
     {
-        $this->parentIncomeService = $parentIncomeService;
+        $this->parentIncomeRepo = $parentIncomeRepo;
 
         $this->middleware('auth:sanctum');
     }
@@ -32,7 +32,7 @@ class ParentIncomeController extends Controller
     {
         $this->authorize('viewAny', ParentIncome::class);
 
-        return ResponseJSON::successWithData('Parent Incomes has been loaded', $this->parentIncomeService->getParentIncomes());
+        return ResponseJSON::successWithData('Parent Incomes has been loaded', $this->parentIncomeRepo->getParentIncomes());
     }
 
     /**
@@ -46,7 +46,7 @@ class ParentIncomeController extends Controller
     {
         $this->authorize('create', ParentIncome::class);
 
-        $this->parentIncomeService->storeParentIncome($request->validated());
+        $this->parentIncomeRepo->storeParentIncome($request->validated());
 
         return ResponseJSON::success('New Parent Income has been added');
     }
@@ -62,7 +62,7 @@ class ParentIncomeController extends Controller
     {
         $this->authorize('view', ParentIncome::findOrFail($id));
 
-        return ResponseJSON::successWithData('Parent Income has been loaded', $this->parentIncomeService->getParentIncome($id));
+        return ResponseJSON::successWithData('Parent Income has been loaded', $this->parentIncomeRepo->getParentIncome($id));
     }
 
     /**
@@ -77,7 +77,7 @@ class ParentIncomeController extends Controller
     {
         $this->authorize('update', ParentIncome::findOrFail($id));
 
-        $this->parentIncomeService->updateParentIncome($request->validated(), $id);
+        $this->parentIncomeRepo->updateParentIncome($request->validated(), $id);
 
         return ResponseJSON::success('Parent Income has been updated');
     }
@@ -94,7 +94,7 @@ class ParentIncomeController extends Controller
         $this->authorize('delete', ParentIncome::findOrFail($id));
 
         try {
-            $this->parentIncomeService->destroyParentIncome($id);
+            $this->parentIncomeRepo->destroyParentIncome($id);
             return ResponseJSON::success('Parent Income has been deleted');
         } catch (\Exception $ex) {
             return ResponseJSON::unprocessableEntity($ex->getMessage());

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Http\Resources\StudentResource;
 use App\Models\Profile;
@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use JsonSerializable;
 
-class StudentService {
+class StudentRepository {
     /**
      * @return JsonSerializable
      */

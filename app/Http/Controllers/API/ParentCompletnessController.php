@@ -7,17 +7,17 @@ use App\Http\Requests\ParentCompletness\StoreParentCompletnessRequest;
 use App\Http\Requests\ParentCompletness\UpdateParentCompletnessRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\ParentCompletness;
-use App\Services\ParentCompletesService;
+use App\Repositories\ParentCompletnessRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
 class ParentCompletnessController extends Controller
 {
-    private $parentCompletesService;
+    private $parentCompletnessRepo;
 
-    public function __construct(ParentCompletesService $parentCompletesService)
+    public function __construct(ParentCompletnessRepository $parentCompletnessRepo)
     {
-        $this->parentCompletesService = $parentCompletesService;
+        $this->parentCompletnessRepo = $parentCompletnessRepo;
 
         $this->middleware('auth:sanctum');
     }
@@ -32,7 +32,7 @@ class ParentCompletnessController extends Controller
     {
         $this->authorize('viewAny', ParentCompletness::class);
 
-        return ResponseJSON::successWithData('Parent Completnesses has been loaded', $this->parentCompletesService->getParentCompletnesses());
+        return ResponseJSON::successWithData('Parent Completnesses has been loaded', $this->parentCompletnessRepo->getParentCompletnesses());
     }
 
     /**
@@ -46,7 +46,7 @@ class ParentCompletnessController extends Controller
     {
         $this->authorize('create', ParentCompletness::class);
 
-        $this->parentCompletesService->storeParentCompletness($request->validated());
+        $this->parentCompletnessRepo->storeParentCompletness($request->validated());
 
         return ResponseJSON::success('New Parent Completness has been added');
     }
@@ -62,7 +62,7 @@ class ParentCompletnessController extends Controller
     {
         $this->authorize('view', ParentCompletness::findOrFail($id));
 
-        return ResponseJSON::successWithData('Parent Completness has been loaded', $this->parentCompletesService->getParentCompletness($id));
+        return ResponseJSON::successWithData('Parent Completness has been loaded', $this->parentCompletnessRepo->getParentCompletness($id));
     }
 
     /**
@@ -77,7 +77,7 @@ class ParentCompletnessController extends Controller
     {
         $this->authorize('update', ParentCompletness::findOrFail($id));
 
-        $this->parentCompletesService->updateParentCompletness($request->validated(), $id);
+        $this->parentCompletnessRepo->updateParentCompletness($request->validated(), $id);
 
         return ResponseJSON::success('Parent Completness has been updated');
     }
@@ -94,7 +94,7 @@ class ParentCompletnessController extends Controller
         $this->authorize('delete', ParentCompletness::findOrFail($id));
 
         try {
-            $this->parentCompletesService->destroyParentCompletness($id);
+            $this->parentCompletnessRepo->destroyParentCompletness($id);
             return ResponseJSON::success('Parent Completness has been deleted');
         } catch (\Exception $ex) {
             return ResponseJSON::unprocessableEntity($ex->getMessage());

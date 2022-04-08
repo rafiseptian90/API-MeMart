@@ -7,17 +7,17 @@ use App\Http\Requests\ClassroomRequest\StoreClassroomRequest;
 use App\Http\Requests\ClassroomRequest\UpdateClassroomRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Classroom;
-use App\Services\ClassroomService;
+use App\Repositories\ClassroomRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
 class ClassroomController extends Controller
 {
-    private $classroomService;
+    private $classroomRepo;
 
-    public function __construct(ClassroomService $classroomService)
+    public function __construct(ClassroomRepository $classroomRepo)
     {
-        $this->classroomService = $classroomService;
+        $this->classroomRepo = $classroomRepo;
 
         $this->middleware('auth:sanctum');
     }
@@ -32,7 +32,7 @@ class ClassroomController extends Controller
     {
         $this->authorize('viewAny', Classroom::class);
 
-        return ResponseJSON::successWithData('Classrooms has been loaded', $this->classroomService->getClassrooms());
+        return ResponseJSON::successWithData('Classrooms has been loaded', $this->classroomRepo->getClassrooms());
     }
 
     /**
@@ -46,7 +46,7 @@ class ClassroomController extends Controller
     {
         $this->authorize('create', Classroom::class);
 
-        $this->classroomService->storeClassroom($request->validated());
+        $this->classroomRepo->storeClassroom($request->validated());
 
         return ResponseJSON::success('Classroom has been added');
     }
@@ -62,7 +62,7 @@ class ClassroomController extends Controller
     {
         $this->authorize('view', Classroom::findOrFail($id));
 
-        return ResponseJSON::successWithData('Classroom has been loaded', $this->classroomService->getClassroom($id));
+        return ResponseJSON::successWithData('Classroom has been loaded', $this->classroomRepo->getClassroom($id));
     }
 
     /**
@@ -77,7 +77,7 @@ class ClassroomController extends Controller
     {
         $this->authorize('update', Classroom::findOrFail($id));
 
-        $this->classroomService->updateClassroom($request->validated(), $id);
+        $this->classroomRepo->updateClassroom($request->validated(), $id);
 
         return ResponseJSON::success('Classroom has been updated');
     }
@@ -94,7 +94,7 @@ class ClassroomController extends Controller
         $this->authorize('delete', Classroom::findOrFail($id));
 
         try {
-            $this->classroomService->destroyClassroom($id);
+            $this->classroomRepo->destroyClassroom($id);
             return ResponseJSON::success('Classroom has been deleted');
         } catch (\Exception $ex) {
             return ResponseJSON::unprocessableEntity($ex->getMessage());

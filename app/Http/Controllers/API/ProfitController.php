@@ -7,17 +7,17 @@ use App\Http\Requests\Profit\StoreProfitRequest;
 use App\Http\Requests\Profit\UpdateProfitRequest;
 use App\Libs\Response\ResponseJSON;
 use App\Models\Profit;
-use App\Services\ProfitService;
+use App\Repositories\ProfitRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
 class ProfitController extends Controller
 {
-    private $profitService;
+    private $profitRepo;
 
-    public function __construct(ProfitService $profitService)
+    public function __construct(ProfitRepository $profitRepo)
     {
-        $this->profitService = $profitService;
+        $this->profitRepo = $profitRepo;
 
         $this->middleware('auth:sanctum');
     }
@@ -32,7 +32,7 @@ class ProfitController extends Controller
     {
         $this->authorize('viewAny', Profit::class);
 
-        return ResponseJSON::successWithData('Profits has been loaded', $this->profitService->getProfits());
+        return ResponseJSON::successWithData('Profits has been loaded', $this->profitRepo->getProfits());
     }
 
     /**
@@ -46,7 +46,7 @@ class ProfitController extends Controller
     {
         $this->authorize('create', Profit::class);
 
-        $this->profitService->storeProfit($request->validated());
+        $this->profitRepo->storeProfit($request->validated());
 
         return ResponseJSON::success('New Profit has been added');
     }
@@ -62,7 +62,7 @@ class ProfitController extends Controller
     {
         $this->authorize('view', Profit::findOrFail($id));
 
-        return ResponseJSON::successWithData('Profit has been loaded', $this->profitService->getProfit($id));
+        return ResponseJSON::successWithData('Profit has been loaded', $this->profitRepo->getProfit($id));
     }
 
     /**
@@ -77,7 +77,7 @@ class ProfitController extends Controller
     {
         $this->authorize('update', Profit::findOrFail($id));
 
-        $this->profitService->updateProfit($request->validated(), $id);
+        $this->profitRepo->updateProfit($request->validated(), $id);
 
         return ResponseJSON::success('Profit has been updated');
     }
@@ -93,7 +93,7 @@ class ProfitController extends Controller
     {
         $this->authorize('delete', Profit::findOrFail($id));
 
-        $this->profitService->destroyProfit($id);
+        $this->profitRepo->destroyProfit($id);
 
         return ResponseJSON::success('Profit has been deleted');
     }
