@@ -11,12 +11,5 @@ class Classroom extends Model
 {
     use HasFactory, SoftDeletes, ClassroomRelations;
 
-    protected $fillable = [
-        'name'
-    ];
-
-    public function getRouteKeyName()
-    {
-        return 'classroom';
-    }
+    protected $fillable = ['name'];
 }

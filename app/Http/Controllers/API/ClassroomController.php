@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassroomRequest\StoreClassroomRequest;
 use App\Http\Requests\ClassroomRequest\UpdateClassroomRequest;
 use App\Libs\Response\ResponseJSON;
+use Illuminate\Support\Facades\Redis;
 use App\Models\Classroom;
 use App\Repositories\ClassroomRepository;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -32,7 +33,13 @@ class ClassroomController extends Controller
     {
         $this->authorize('viewAny', Classroom::class);
 
-        return ResponseJSON::successWithData('Classrooms has been loaded', $this->classroomRepo->getClassrooms());
+        if (!Redis::get('classroom.lists')) {
+            Redis::set('classroom.lists', json_encode($this->classroomRepo->getClassrooms()));
+        }
+
+        $classrooms = json_decode(Redis::get('classroom.lists'));
+
+        return ResponseJSON::successWithData('Classrooms has been loaded', $classrooms);
     }
 
     /**
@@ -101,3 +108,4 @@ class ClassroomController extends Controller
         }
     }
 }
+

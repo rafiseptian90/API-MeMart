@@ -11,6 +11,7 @@ use App\Repositories\StudentRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Redis;
 
 class StudentController extends Controller
 {
@@ -31,9 +32,15 @@ class StudentController extends Controller
      */
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', Student::class);
+         $this->authorize('viewAny', Student::class);
 
-        return ResponseJSON::successWithData('Students has been loaded', $this->studentRepo->getStudents());
+         if (!Redis::get('student.lists')) {
+             Redis::set('student.lists', json_encode($this->studentRepo->getStudents()));
+         }
+
+         $students = json_decode(Redis::get('student.lists'));
+
+         return ResponseJSON::successWithData('Students has been loaded', $students);
     }
 
     /**
